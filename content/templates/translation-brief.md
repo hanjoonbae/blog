@@ -19,7 +19,7 @@ draft: true
 
 ## Terms
 
-- 
+-
 
 ## Final Checks
 
