@@ -7,21 +7,17 @@ draft: true
 
 ## Goal
 
-
 ## Prerequisites
 
-- 
+-
 
 ## Steps
 
-### 1. 
+### 1.
 
+### 2.
 
-### 2. 
-
-
-### 3. 
-
+### 3.
 
 ## Verify
 
@@ -30,5 +26,3 @@ draft: true
 ```
 
 ## Wrap-Up
-
-

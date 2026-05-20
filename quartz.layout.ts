@@ -40,6 +40,11 @@ export const defaultContentPageLayout: PageLayout = {
       ],
     }),
     Component.Explorer(),
+    Component.GoogleAppointment({
+      url: "https://calendar.google.com/calendar/appointments/AcZssZ1WWSGB_CFROgacLjk_WBrwn0ck_CIe7bRaku0=?gv=true",
+      color: "#284B63",
+      label: "Book a time",
+    }),
   ],
   right: [
     Component.Graph(),
@@ -64,6 +69,11 @@ export const defaultListPageLayout: PageLayout = {
       ],
     }),
     Component.Explorer(),
+    Component.GoogleAppointment({
+      url: "https://calendar.google.com/calendar/appointments/AcZssZ1WWSGB_CFROgacLjk_WBrwn0ck_CIe7bRaku0=?gv=true",
+      color: "#284B63",
+      label: "Book a time",
+    }),
   ],
   right: [],
 }

@@ -13,15 +13,12 @@ draft: true
 
 ## Summary
 
-
 ## Ideas Worth Keeping
 
-- 
+-
 
 ## Quotes
 
-> 
+>
 
 ## My Take
-
-
