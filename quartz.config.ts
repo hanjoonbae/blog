@@ -13,7 +13,7 @@ const config: QuartzConfig = {
     enableSPA: true,
     enablePopovers: true,
     analytics: null,
-    locale: "ko-KR",
+    locale: "en-US",
     baseUrl: "hanjoonbae.github.io/blog",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "modified",
