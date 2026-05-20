@@ -233,14 +233,40 @@ a {
       grid-area: grid-sidebar-left;
       flex-direction: column;
       @media all and ($mobile) {
-        gap: 0;
+        gap: 0.75rem 0.6rem;
         align-items: center;
         position: initial;
         display: flex;
         height: unset;
         flex-direction: row;
+        flex-wrap: wrap;
         padding: 0;
         padding-top: 2rem;
+
+        & > .page-title {
+          order: 0;
+          flex: 1 0 100%;
+          text-align: center;
+        }
+
+        & > .mobile-only.spacer {
+          display: none;
+        }
+
+        & > .flex-component {
+          order: 1;
+          flex: 1 1 auto;
+          min-width: 0;
+        }
+
+        & > .google-appointment {
+          order: 2;
+          flex: 0 0 auto;
+        }
+
+        & > .explorer {
+          order: 3;
+        }
       }
     }
 

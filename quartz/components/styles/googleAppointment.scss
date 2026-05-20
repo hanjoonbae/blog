@@ -1,6 +1,15 @@
+@use "../../styles/variables.scss" as *;
+
 .google-appointment {
   display: flex;
   justify-content: flex-start;
   min-height: 40px;
   margin-top: 2rem;
+
+  @media all and ($mobile) {
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 2rem;
+    margin: 0;
+  }
 }
