@@ -1,5 +1,9 @@
 ---
 title: Building an Obsidian Blog with Quartz and GitHub Pages
+lang: en
+translation: /engineering/building-an-obsidian-blog-with-quartz-ko
+aliases:
+  - /en/engineering/building-an-obsidian-blog-with-quartz
 tags:
   - quartz
   - obsidian
@@ -31,6 +35,7 @@ quartz/
     index.md
     engineering/
       building-an-obsidian-blog-with-quartz.md
+      building-an-obsidian-blog-with-quartz-ko.md
   quartz.config.ts
   quartz.layout.ts
 ```
@@ -98,7 +103,7 @@ The main site settings live in `quartz.config.ts`. I changed the title, locale, 
 
 ```ts
 pageTitle: "Hanjoon Blog",
-locale: "ko-KR",
+locale: "en-US",
 baseUrl: "hanjoonbae.github.io/blog",
 ```
 
@@ -113,7 +118,6 @@ To write a new post, I create a Markdown file somewhere under `content`.
 ```txt
 content/engineering/my-new-post.md
 content/data/my-data-note.md
-content/life/my-daily-note.md
 ```
 
 A typical post starts with frontmatter:
@@ -121,6 +125,8 @@ A typical post starts with frontmatter:
 ```md
 ---
 title: My New Post
+lang: en
+translation: /engineering/my-new-post-ko
 tags:
   - example
 ---
@@ -130,20 +136,33 @@ tags:
 Content goes here.
 ```
 
-The folder controls the URL and category-like structure. The title shown on the site comes from the `title` field.
+When I want a Korean version, I create a hidden companion page in the same folder:
+
+```md
+---
+title: 새 글
+lang: ko
+translation: /engineering/my-new-post
+hide: true
+tags:
+  - example
+---
+```
+
+This keeps the public folder structure clean while still allowing the language switch to move between both versions.
 
 ## Local Preview
 
 Before publishing, I can preview the blog locally.
 
 ```bash
-npm run quartz -- build --serve
+npm run quartz -- build --serve --baseDir blog
 ```
 
 Then I open:
 
 ```txt
-http://localhost:8080
+http://localhost:8080/blog
 ```
 
 ## Publishing

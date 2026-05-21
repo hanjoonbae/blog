@@ -17,6 +17,9 @@ interface Options {
   sort: (f1: QuartzPluginData, f2: QuartzPluginData) => number
 }
 
+const isHidden = (file: QuartzPluginData) =>
+  file.frontmatter?.hide === true || file.frontmatter?.hide === "true"
+
 const defaultOptions = (cfg: GlobalConfiguration): Options => ({
   limit: 3,
   linkToMore: false,
@@ -33,7 +36,10 @@ export default ((userOpts?: Partial<Options>) => {
     cfg,
   }: QuartzComponentProps) => {
     const opts = { ...defaultOptions(cfg), ...userOpts }
-    const pages = allFiles.filter(opts.filter).sort(opts.sort)
+    const pages = allFiles
+      .filter((file) => !isHidden(file))
+      .filter(opts.filter)
+      .sort(opts.sort)
     const remaining = Math.max(0, pages.length - opts.limit)
     return (
       <div class={classNames(displayClass, "recent-notes")}>

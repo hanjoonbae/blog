@@ -9,6 +9,9 @@ import { i18n } from "../../i18n"
 import { ComponentChildren } from "preact"
 import { concatenateResources } from "../../util/resources"
 
+const isHidden = (file: QuartzPluginData) =>
+  file.frontmatter?.hide === true || file.frontmatter?.hide === "true"
+
 interface TagContentOptions {
   sort?: SortFn
   numPages: number
@@ -31,8 +34,10 @@ export default ((opts?: Partial<TagContentOptions>) => {
 
     const tag = simplifySlug(slug.slice("tags/".length) as FullSlug)
     const allPagesWithTag = (tag: string) =>
-      allFiles.filter((file) =>
-        (file.frontmatter?.tags ?? []).flatMap(getAllSegmentPrefixes).includes(tag),
+      allFiles.filter(
+        (file) =>
+          !isHidden(file) &&
+          (file.frontmatter?.tags ?? []).flatMap(getAllSegmentPrefixes).includes(tag),
       )
 
     const content = (
@@ -45,7 +50,10 @@ export default ((opts?: Partial<TagContentOptions>) => {
     if (tag === "/") {
       const tags = [
         ...new Set(
-          allFiles.flatMap((data) => data.frontmatter?.tags ?? []).flatMap(getAllSegmentPrefixes),
+          allFiles
+            .filter((file) => !isHidden(file))
+            .flatMap((data) => data.frontmatter?.tags ?? [])
+            .flatMap(getAllSegmentPrefixes),
         ),
       ].sort((a, b) => a.localeCompare(b))
       const tagItemMap: Map<string, QuartzPluginData[]> = new Map()

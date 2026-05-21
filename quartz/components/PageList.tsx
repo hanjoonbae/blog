@@ -6,6 +6,9 @@ import { GlobalConfiguration } from "../cfg"
 
 export type SortFn = (f1: QuartzPluginData, f2: QuartzPluginData) => number
 
+const isHidden = (file: QuartzPluginData) =>
+  file.frontmatter?.hide === true || file.frontmatter?.hide === "true"
+
 export function byDateAndAlphabetical(cfg: GlobalConfiguration): SortFn {
   return (f1, f2) => {
     // Sort by date/alphabetical
@@ -59,7 +62,7 @@ type Props = {
 
 export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort }: Props) => {
   const sorter = sort ?? byDateAndAlphabeticalFolderFirst(cfg)
-  let list = allFiles.sort(sorter)
+  let list = allFiles.filter((file) => !isHidden(file)).sort(sorter)
   if (limit) {
     list = list.slice(0, limit)
   }

@@ -24,6 +24,7 @@ import Comments from "./Comments"
 import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
 import GoogleAppointment from "./GoogleAppointment"
+import LanguageSwitch from "./LanguageSwitch"
 
 export {
   ArticleTitle,
@@ -52,4 +53,5 @@ export {
   Flex,
   ConditionalRender,
   GoogleAppointment,
+  LanguageSwitch,
 }
