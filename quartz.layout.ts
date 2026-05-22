@@ -6,7 +6,7 @@ import RecentNotesForIndex from "./quartz/components/RecentNotesForIndex"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [],
+  afterBody: [RecentNotesForIndex],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/hanjoonbae/blog",
@@ -24,7 +24,6 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ArticleTitle(),
     Component.ContentMeta(),
     Component.TagList(),
-    RecentNotesForIndex,
   ],
   left: [
     Component.PageTitle(),
