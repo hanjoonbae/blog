@@ -10,6 +10,7 @@ tags:
   - starlink
 ---
 
+![[spacex.webp]]
 ## Research Overview
 
 SpaceX is a private American space company founded by Elon Musk in 2002. Its broad goal is to reduce launch costs and, over the long term, build transportation infrastructure that allows humans to operate beyond Earth. Today, SpaceX is developing reusable rockets, crewed spacecraft, satellite internet, and technologies for lunar and Mars exploration at the same time.
