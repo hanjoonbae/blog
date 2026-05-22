@@ -62,6 +62,8 @@ export default ((userOpts?: Partial<Options>) => {
 
   const Explorer: QuartzComponent = ({ cfg, displayClass }: QuartzComponentProps) => {
     const id = `explorer-${numExplorers++}`
+    const explorerTitle = opts.title ?? i18n(cfg.locale).components.explorer.title
+    const explorerTitleAttrs = opts.title ? {} : { "data-i18n-key": "components.explorer.title" }
 
     return (
       <div
@@ -103,7 +105,7 @@ export default ((userOpts?: Partial<Options>) => {
           data-mobile={false}
           aria-expanded={true}
         >
-          <h2>{opts.title ?? i18n(cfg.locale).components.explorer.title}</h2>
+          <h2 {...explorerTitleAttrs}>{explorerTitle}</h2>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="14"

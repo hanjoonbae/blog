@@ -24,7 +24,6 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ArticleTitle(),
     Component.ContentMeta(),
     Component.TagList(),
-    Component.LanguageSwitch(),
     RecentNotesForIndex,
   ],
   left: [
@@ -38,6 +37,7 @@ export const defaultContentPageLayout: PageLayout = {
         },
         { Component: Component.Darkmode() },
         { Component: Component.ReaderMode() },
+        { Component: Component.LanguageSwitch() },
       ],
     }),
     Component.Explorer(),

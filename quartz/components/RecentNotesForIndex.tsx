@@ -7,7 +7,6 @@ const RecentNotesForIndex: QuartzComponent = (props: QuartzComponentProps) => {
   }
 
   const IndexRecentNotes = RecentNotes({
-    title: "Recent Posts",
     limit: 5,
     showTags: false,
     linkToMore: false,

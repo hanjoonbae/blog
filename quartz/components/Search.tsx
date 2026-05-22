@@ -27,7 +27,7 @@ export default ((userOpts?: Partial<SearchOptions>) => {
               <circle cx="8" cy="8" r="7" />
             </g>
           </svg>
-          <p>{i18n(cfg.locale).components.search.title}</p>
+          <p data-i18n-key="components.search.title">{i18n(cfg.locale).components.search.title}</p>
         </button>
         <div class="search-container">
           <div class="search-space">
@@ -37,6 +37,8 @@ export default ((userOpts?: Partial<SearchOptions>) => {
               name="search"
               type="text"
               aria-label={searchPlaceholder}
+              data-i18n-aria-label-key="components.search.searchBarPlaceholder"
+              data-i18n-placeholder-key="components.search.searchBarPlaceholder"
               placeholder={searchPlaceholder}
             />
             <div class="search-layout" data-preview={opts.enablePreview}></div>

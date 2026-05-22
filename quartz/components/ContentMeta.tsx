@@ -39,7 +39,14 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
         const displayedTime = i18n(cfg.locale).components.contentMeta.readingTime({
           minutes: Math.ceil(minutes),
         })
-        segments.push(<span>{displayedTime}</span>)
+        segments.push(
+          <span
+            data-i18n-key="components.contentMeta.readingTime"
+            data-minutes={Math.ceil(minutes)}
+          >
+            {displayedTime}
+          </span>,
+        )
       }
 
       return (
