@@ -7,10 +7,10 @@ This blog is my personal space for documenting development environments, writing
 
 ## What I Write
 
-- **Engineering Notes**: development setup, automation, deployment, and tool usage
-- **Learning Logs**: new technologies, experiments, and lessons learned
-- **Project Retrospectives**: decisions and reflections from small projects
-- **Writing Workflow**: personal knowledge management with Obsidian, Quartz, and GitHub Pages
+- **Engineering**: development setup, automation, deployment, and tool usage
+- **Learning**: new technologies, experiments, and lessons learned
+- **Project**: decisions and reflections from small projects
+
 
 ## Contact
 
