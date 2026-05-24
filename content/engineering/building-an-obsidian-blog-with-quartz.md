@@ -9,7 +9,7 @@ tags:
   - obsidian
   - github-pages
 ---
-![[output.webp]]
+![[engineering/assets/output.webp|500]]
 ## Why Quartz
 
 I wanted a simple writing workflow where Obsidian stays focused on writing and GitHub Pages handles publishing. Quartz fits this well because it turns a folder of Markdown files into a static website, while still supporting Obsidian-style links, folders, tags, backlinks, search, and a graph view.
