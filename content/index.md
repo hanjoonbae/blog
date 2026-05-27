@@ -4,7 +4,7 @@ title: Hanjoon Bae
 
 I learn, build, and write about technology.
 
-![[assets/output.webp|600]]
+![[private/assets/output.webp|600]]
 ## What I Write
 
 - **Engineering**: development setup, automation, deployment, and tool usage
