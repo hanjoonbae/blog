@@ -15,7 +15,7 @@ const config: QuartzConfig = {
     analytics: null,
     locale: "en-US",
     baseUrl: "hanjoonbae.github.io/blog",
-    ignorePatterns: ["private", "templates", ".obsidian"],
+    ignorePatterns: ["private/**/*.md", "templates", ".obsidian"],
     defaultDateType: "modified",
     theme: {
       fontOrigin: "googleFonts",
