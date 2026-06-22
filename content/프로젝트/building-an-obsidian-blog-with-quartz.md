@@ -7,7 +7,7 @@ tags:
   - obsidian
   - github-pages
 ---
-![[Tools/assets/output.webp|500]]
+![[프로젝트/assets/output.webp|500]]
 ## 왜 Quartz인가
 
 나는 Obsidian은 글쓰기에 집중하고, GitHub Pages는 게시를 담당하는 단순한 흐름을 원했다. Quartz는 이 목적에 잘 맞는다. Markdown 파일이 들어 있는 폴더를 정적 웹사이트로 바꿔주면서도, Obsidian 스타일 링크, 폴더, 태그, 백링크, 검색, 그래프 뷰를 지원한다.
