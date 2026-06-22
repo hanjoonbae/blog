@@ -6,6 +6,18 @@ const koNoExt = `${enNoExt}-ko`
 const enPath = `${enNoExt}.md`
 const title = tp.file.title.replace(/-ko$/, "")
 const yaml = (value) => JSON.stringify(value)
+const slugify = (value) =>
+  value
+    .split("/")
+    .map((segment) =>
+      segment
+        .replace(/\s/g, "-")
+        .replace(/&/g, "-and-")
+        .replace(/%/g, "-percent")
+        .replace(/\?/g, "")
+        .replace(/#/g, ""),
+    )
+    .join("/")
 
 if (!currentNoExt.endsWith("-ko")) {
   await tp.file.rename(`${title}-ko`)
@@ -17,7 +29,7 @@ if (!app.vault.getAbstractFileByPath(enPath)) {
     `---
 title: ${yaml(title)}
 lang: en
-translation: /${koNoExt}
+translation: /${slugify(koNoExt)}
 aliases:
   - ${yaml(title)}
 tags:
@@ -29,7 +41,7 @@ tags:
 tR += `---
 title: ${yaml(title)}
 lang: ko
-translation: /${enNoExt}
+translation: /${slugify(enNoExt)}
 hide: true
 aliases:
   - ${yaml(title)}

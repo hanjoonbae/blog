@@ -1,7 +1,7 @@
 ---
 title: Quartz와 GitHub Pages로 Obsidian 블로그 만들기
 lang: ko
-translation: /engineering/building-an-obsidian-blog-with-quartz
+translation: /Tools/building-an-obsidian-blog-with-quartz
 hide: true
 aliases:
   - /ko/engineering/building-an-obsidian-blog-with-quartz
@@ -10,7 +10,7 @@ tags:
   - obsidian
   - github-pages
 ---
-![[engineering/assets/output.webp|500]]
+![[Tools/assets/output.webp|500]]
 ## 왜 Quartz인가
 
 나는 Obsidian은 글쓰기에 집중하고, GitHub Pages는 게시를 담당하는 단순한 흐름을 원했다. Quartz는 이 목적에 잘 맞는다. Markdown 파일이 들어 있는 폴더를 정적 웹사이트로 바꿔주면서도, Obsidian 스타일 링크, 폴더, 태그, 백링크, 검색, 그래프 뷰를 지원한다.
@@ -34,7 +34,7 @@ quartz/
       deploy.yml
   content/
     index.md
-    engineering/
+    Tools/
       building-an-obsidian-blog-with-quartz.md
       building-an-obsidian-blog-with-quartz-ko.md
   quartz.config.ts
@@ -117,7 +117,7 @@ baseUrl: "hanjoonbae.github.io/blog",
 새 글은 `content` 아래에 Markdown 파일로 작성한다.
 
 ```txt
-content/engineering/my-new-post.md
+content/Tools/my-new-post.md
 content/data/my-data-note.md
 ```
 
@@ -127,7 +127,7 @@ content/data/my-data-note.md
 ---
 title: My New Post
 lang: en
-translation: /engineering/my-new-post-ko
+translation: /Tools/my-new-post-ko
 tags:
   - example
 ---
@@ -143,7 +143,7 @@ Content goes here.
 ---
 title: 새 글
 lang: ko
-translation: /engineering/my-new-post
+translation: /Tools/my-new-post
 hide: true
 tags:
   - example

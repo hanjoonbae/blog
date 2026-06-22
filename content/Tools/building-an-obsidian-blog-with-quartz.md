@@ -1,7 +1,7 @@
 ---
 title: Building an Obsidian Blog with Quartz and GitHub Pages
 lang: en
-translation: /engineering/building-an-obsidian-blog-with-quartz-ko
+translation: /Tools/building-an-obsidian-blog-with-quartz-ko
 aliases:
   - /en/engineering/building-an-obsidian-blog-with-quartz
 tags:
@@ -9,7 +9,7 @@ tags:
   - obsidian
   - github-pages
 ---
-![[engineering/assets/output.webp|500]]
+![[Tools/assets/output.webp|500]]
 ## Why Quartz
 
 I wanted a simple writing workflow where Obsidian stays focused on writing and GitHub Pages handles publishing. Quartz fits this well because it turns a folder of Markdown files into a static website, while still supporting Obsidian-style links, folders, tags, backlinks, search, and a graph view.
@@ -33,7 +33,7 @@ quartz/
       deploy.yml
   content/
     index.md
-    engineering/
+    Tools/
       building-an-obsidian-blog-with-quartz.md
       building-an-obsidian-blog-with-quartz-ko.md
   quartz.config.ts
@@ -116,7 +116,7 @@ The explorer uses the folder structure inside `content`, so folders naturally wo
 To write a new post, I create a Markdown file somewhere under `content`.
 
 ```txt
-content/engineering/my-new-post.md
+content/Tools/my-new-post.md
 content/data/my-data-note.md
 ```
 
@@ -126,7 +126,7 @@ A typical post starts with frontmatter:
 ---
 title: My New Post
 lang: en
-translation: /engineering/my-new-post-ko
+translation: /Tools/my-new-post-ko
 tags:
   - example
 ---
@@ -142,7 +142,7 @@ When I want a Korean version, I create a hidden companion page in the same folde
 ---
 title: 새 글
 lang: ko
-translation: /engineering/my-new-post
+translation: /Tools/my-new-post
 hide: true
 tags:
   - example

@@ -1,5 +1,14 @@
 ---
+title: "SAA dump 풀이"
+lang: ko
+translation: "/AWS-SAA/SAA-dump-풀이"
 hide: true
+aliases:
+  - "SAA dump 풀이"
+tags:
+  - aws
+  - certification
+  - saa
 ---
 
 # Q100

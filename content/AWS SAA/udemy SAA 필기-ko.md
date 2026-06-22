@@ -1,5 +1,14 @@
 ---
+title: "udemy SAA 필기"
+lang: ko
+translation: "/AWS-SAA/udemy-SAA-필기"
 hide: true
+aliases:
+  - "udemy SAA 필기"
+tags:
+  - aws
+  - certification
+  - saa
 ---
 - **EC2 ssh 접속**
 	- pem 파일의 경우 폴더에서 properties - security - user권한을 사용자 1명에게만 귀속시켜야 보안이 인정되어 ssh 접속 가능함

@@ -1,7 +1,7 @@
 ---
 title: CORS error
 lang: en
-translation: /engineering/CORS 에러-ko
+translation: "/Tools/CORS-에러-ko"
 aliases:
   - CORS 에러
 tags:
