@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-  pageTitle: Hanjoon Blog
+  pageTitle: Hanjoon Bae
   pageTitleSuffix: ""
   enableSPA: true
   enablePopovers: true
@@ -11,34 +11,38 @@ configuration:
     - private
     - templates
     - .obsidian
+    # NOTE: the visible site renders in the system font stack — set via the
+    # quartz-community/fonts plugin options below. theme.typography here only
+    # feeds the OG-image generator (satori needs a real fetchable font), so it
+    # names Noto Sans KR (Korean-capable) + JetBrains Mono.
   theme:
     fontOrigin: googleFonts
     cdnCaching: true
     typography:
-      header: Noto Serif KR
+      header: Noto Sans KR
       body: Noto Sans KR
-      code: IBM Plex Mono
+      code: JetBrains Mono
     colors:
       lightMode:
-        light: "#f5f4ed"
-        lightgray: "#e8e6dc"
-        gray: "#87867f"
-        darkgray: "#5e5d59"
-        dark: "#141413"
-        secondary: "#c96442"
-        tertiary: "#d97757"
-        highlight: rgba(232, 230, 220, 0.55)
-        textHighlight: "#d9775733"
+        light: "#ffffff"
+        lightgray: "#cbd5e1"
+        gray: "#6b7280"
+        darkgray: "#475569"
+        dark: "#0f172a"
+        secondary: "#1e293b"
+        tertiary: "#475569"
+        highlight: rgba(248, 250, 252, 0.5)
+        textHighlight: "#fef4ad"
       darkMode:
-        light: "#141413"
-        lightgray: "#30302e"
-        gray: "#73726c"
-        darkgray: "#b0aea5"
-        dark: "#faf9f5"
-        secondary: "#d97757"
-        tertiary: "#c96442"
-        highlight: rgba(48, 48, 46, 0.6)
-        textHighlight: "#d9775733"
+        light: "#020617"
+        lightgray: "#1e293b"
+        gray: "#64748b"
+        darkgray: "#94a3b8"
+        dark: "#e2e8f0"
+        secondary: "#cbd5e1"
+        tertiary: "#94a3b8"
+        highlight: rgba(30, 41, 59, 0.5)
+        textHighlight: "#fef4ad88"
 plugins:
   - source: github:quartz-community/created-modified-date
     enabled: true
@@ -100,9 +104,9 @@ plugins:
   - source: github:quartz-community/fonts
     enabled: true
     options:
-      header: Noto Serif KR
-      body: Noto Sans KR
-      code: IBM Plex Mono
+      header: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"
+      body: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"
+      code: JetBrains Mono
   - source: github:quartz-community/remove-draft
     enabled: true
   - source: github:quartz-community/explicit-publish
@@ -173,6 +177,7 @@ plugins:
     layout:
       position: beforeBody
       priority: 10
+      condition: not-index
   - source: github:quartz-community/content-meta
     enabled: true
     layout:
@@ -184,7 +189,9 @@ plugins:
       position: beforeBody
       priority: 30
   - source: github:quartz-community/page-title
-    enabled: true
+    # Disabled: the site name is rendered by the custom DefaultFrame header
+    # (name left + English category nav right). See DESIGN.md / DefaultFrame.tsx.
+    enabled: false
     layout:
       position: left
       priority: 10
@@ -263,16 +270,21 @@ layout:
         beforeBody: []
         left: []
         right: []
-    content: {}
+    content:
+      positions:
+        left: []
+        right: []
     folder:
       exclude:
         - reader-mode
       positions:
+        left: []
         right: []
     tag:
       exclude:
         - reader-mode
       positions:
+        left: []
         right: []
     canvas: {}
     bases: {}

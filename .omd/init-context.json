@@ -1,12 +1,15 @@
 {
-  "reference_id": "claude",
-  "description": "Quartz 블로그 테마를 바꾸려고 합니다. 레퍼런스를 추천받아서 톤을 잡고 싶습니다. 디자인 토큰(컬러 light/dark, 타이포)을 잡은 뒤 quartz.config.yaml의 theme 블록에 적용할 예정입니다. — 한국어 개인 기술/엔지니어링 블로그 (AWS, Databricks, 논문 리뷰, 구현, 공부). 긴 글 읽기 중심.",
+  "reference_id": "stefanzweifel.dev",
+  "reference_source": "user-supplied spec (stefan.md) — not from omd catalog",
+  "description": "Quartz 블로그 테마. 사용자가 좋아하는 블로그 stefanzweifel.dev의 디자인 명세서(stefan.md)를 반영. 한국어 개인 기술/엔지니어링 블로그 (AWS, Databricks, 논문 리뷰, 구현, 공부). 미니멀·콘텐츠 우선·단일 컬럼. 결정: 폰트=시스템 스택(한글 OS face)+JetBrains Mono, 액센트=상단 무지개 그라디언트 바(링크는 slate underline), 다크모드=slate 계열 파생.",
+  "previous_reference_ids": ["claude", "vercel"],
   "mode": "inspired",
   "delta_set": {
     "axes": {},
-    "voiceHints": ["editorial", "calm", "technical", "no hype"],
-    "matchedKeywords": ["editorial", "calm", "warm", "technical", "trustworthy"],
+    "voiceHints": ["plain", "precise", "quiet", "no hype"],
+    "matchedKeywords": ["minimal", "content-first", "slate", "flat", "system-font"],
     "warnings": []
   },
-  "bootstrapped_at": "2026-06-22T08:46:23Z"
+  "user_dislikes": ["cream/beige backgrounds", "serif headlines", "terracotta accent"],
+  "bootstrapped_at": "2026-06-24T08:08:52Z"
 }
