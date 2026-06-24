@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import PostList from '../../components/PostList.astro';
+import { CATEGORIES, getCategory } from '../../lib/categories';
+
+export function getStaticPaths() {
+  return CATEGORIES.map((category) => ({ params: { category: category.id }, props: { categoryId: category.id } }));
+}
+
+const { categoryId } = Astro.props;
+const category = getCategory(categoryId);
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft && post.data.category === categoryId)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <BaseHead title={category?.label ?? 'Category'} description={category?.description ?? 'Category archive'} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="page-title" aria-labelledby="category-title">
+        <h1 id="category-title">{category?.label}</h1>
+        <p>{category?.description}</p>
+      </section>
+      <PostList posts={posts} emptyText="이 카테고리에는 아직 공개된 글이 없습니다." />
+    </main>
+    <Footer />
+  </body>
+</html>

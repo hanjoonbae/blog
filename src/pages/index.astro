@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import PostList from '../components/PostList.astro';
+import { CATEGORIES } from '../lib/categories';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 8);
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="intro" aria-labelledby="intro-title">
+        <h1 id="intro-title">Hanjoon Bae</h1>
+        <h2>{SITE_DESCRIPTION}</h2>
+      </section>
+
+      <section aria-labelledby="recent-posts">
+        <div class="section-heading">
+          <h3 id="recent-posts">Recent Posts</h3>
+          <a href="/blog/">All posts</a>
+        </div>
+        <PostList posts={posts} emptyText="아직 공개된 글이 없습니다." />
+      </section>
+
+      <section aria-labelledby="categories">
+        <h3 id="categories">Categories</h3>
+        <ol class="category-list">
+          {CATEGORIES.map((category) => (
+            <li>
+              <a class="category-row" href={'/categories/' + category.id + '/'}>
+                <span>{category.label}</span>
+                <span>{category.description}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>

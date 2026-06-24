@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { getCategory } from '../lib/categories';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, category: categoryId, tags } = Astro.props;
+const category = getCategory(categoryId);
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <article class="prose">
+        <header class="post-header">
+          <p class="post-meta">
+            <FormattedDate date={pubDate} />
+            {category ? <a href={'/categories/' + category.id + '/'}>{category.label}</a> : null}
+          </p>
+          <h1>{title}</h1>
+          <p class="dek">{description}</p>
+          {updatedDate && <p class="updated">Updated <FormattedDate date={updatedDate} /></p>}
+          {tags.length > 0 && (
+            <ul class="tag-list" aria-label="Tags">
+              {tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          )}
+        </header>
+        <slot />
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>

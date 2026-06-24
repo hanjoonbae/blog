@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+import { getCategory } from '../lib/categories';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  emptyText?: string;
+}
+
+const { posts, emptyText = '아직 공개된 글이 없습니다.' } = Astro.props;
+---
+
+{posts.length > 0 ? (
+  <ol class="post-list">
+    {posts.map((post) => {
+      const category = getCategory(post.data.category);
+      return (
+        <li>
+          <a class="post-row" href={'/blog/' + post.id + '/'}>
+            <span class="post-title">{post.data.title}</span>
+            <span class="post-description">{post.data.description}</span>
+            <span class="post-meta">
+              <FormattedDate date={post.data.pubDate} />
+              {category ? <span>{category.label}</span> : null}
+            </span>
+          </a>
+        </li>
+      );
+    })}
+  </ol>
+) : (
+  <p class="empty-state">{emptyText}</p>
+)}

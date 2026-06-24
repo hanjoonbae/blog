@@ -1,0 +1,19 @@
+---
+import { CATEGORIES } from '../lib/categories';
+import { SITE_TITLE } from '../consts';
+
+const pathname = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <nav class="site-nav" aria-label="Primary navigation">
+    <a class="site-title" href="/">{SITE_TITLE}</a>
+    <div class="nav-links">
+      {CATEGORIES.map((category) => {
+        const href = '/categories/' + category.id + '/';
+        const isActive = pathname === href;
+        return <a href={href} aria-current={isActive ? 'page' : undefined}>{category.label}</a>;
+      })}
+    </div>
+  </nav>
+</header>
