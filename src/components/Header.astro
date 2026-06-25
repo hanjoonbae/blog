@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE } from '../consts';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 interface Props {
   showHero?: boolean;
@@ -11,10 +11,11 @@ const { showHero = true } = Astro.props;
 <header class="site-header">
   <nav class="site-nav" aria-label="Primary navigation">
     <a class="site-title" href="/">{SITE_TITLE}</a>
+    <span class="site-desc-nav">{SITE_DESCRIPTION}</span>
   </nav>
   {showHero && (
     <div class="header-hero">
-      <img src="/hero-mountains.jpg" alt="" aria-hidden="true" class="header-hero-img" />
+      <img src="/hero-mountains-color.jpg" alt="" aria-hidden="true" class="header-hero-img" />
     </div>
   )}
 </header>
