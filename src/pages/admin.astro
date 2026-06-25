@@ -102,11 +102,12 @@ import { CATEGORIES } from '../lib/categories';
       const newPostButton = document.querySelector('#new-post');
       const statusEl = document.querySelector('#form-status');
       const previewLink = document.querySelector('#preview-link');
-      const writerUrl = '/api/local-posts';
+      const writerPath = '/api/local-posts';
+      const localApiPorts = ['4321', '4322', '4323', '4324', '4325'];
 
       const today = new Date().toISOString().slice(0, 10);
       resetForm();
-      loadPostList();
+      loadPostList().catch((error) => setStatus(error.message, 'error'));
 
       function setStatus(message, state = '') {
         statusEl.textContent = message;
@@ -182,10 +183,47 @@ import { CATEGORIES } from '../lib/categories';
         previewLink.removeAttribute('aria-disabled');
       }
 
+      function writerCandidates(path) {
+        const sameOrigin = path;
+        const currentPort = window.location.port;
+        const numericPort = Number(currentPort);
+        const nearbyPorts = Number.isFinite(numericPort)
+          ? [numericPort - 1, numericPort - 2, numericPort + 1].filter((port) => port > 0).map(String)
+          : [];
+        const orderedPorts = [...nearbyPorts, ...localApiPorts];
+        const seen = new Set([currentPort]);
+        const localhostUrls = [];
+        for (const port of orderedPorts) {
+          if (seen.has(port)) continue;
+          seen.add(port);
+          localhostUrls.push('http://127.0.0.1:' + port + path);
+        }
+        return [sameOrigin, ...localhostUrls];
+      }
+
+      async function fetchWriter(path, options) {
+        const errors = [];
+        for (const url of writerCandidates(path)) {
+          try {
+            const response = await fetch(url, options);
+            const contentType = response.headers.get('content-type') || '';
+            if (!contentType.includes('application/json')) {
+              errors.push(url + ' returned non-JSON');
+              continue;
+            }
+            const result = await response.json();
+            if (!response.ok || !result.ok) throw new Error(result.error || 'Request failed.');
+            if (!result.mode) throw new Error('Stale local writer API. Restart npm run dev in the blog folder.');
+            return result;
+          } catch (error) {
+            errors.push(error.message);
+          }
+        }
+        throw new Error('Local writer API is not available. Restart npm run dev in the blog folder, then reload this page.');
+      }
+
       async function loadPostList(selectedSlug = '') {
-        const response = await fetch(writerUrl);
-        const result = await response.json();
-        if (!response.ok || !result.ok) throw new Error(result.error || 'Could not load posts.');
+        const result = await fetchWriter(writerPath);
         const currentValue = selectedSlug || postSelect.value;
         postSelect.replaceChildren(new Option('새 글 작성', ''));
         for (const post of result.posts) {
@@ -203,9 +241,7 @@ import { CATEGORIES } from '../lib/categories';
           return;
         }
         setStatus('Loading...', '');
-        const response = await fetch(writerUrl + '?slug=' + encodeURIComponent(slug));
-        const result = await response.json();
-        if (!response.ok || !result.ok) throw new Error(result.error || 'Could not load post.');
+        const result = await fetchWriter(writerPath + '?slug=' + encodeURIComponent(slug));
         fillForm(result.post);
         setStatus('Loaded ' + result.post.path + '.', 'ok');
       }
@@ -259,21 +295,20 @@ import { CATEGORIES } from '../lib/categories';
         payload.slug = payload.slug || slugify(payload.title);
 
         try {
-          const response = await fetch(writerUrl, {
+          const result = await fetchWriter(writerPath, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
           });
-          const result = await response.json();
-          if (!response.ok || !result.ok) throw new Error(result.error || 'Could not save post.');
           form.elements.originalSlug.value = result.post.slug;
           form.elements.slug.value = result.post.slug;
           previewLink.href = result.post.url;
           previewLink.removeAttribute('aria-disabled');
           await loadPostList(result.post.slug);
-          setStatus('Saved to ' + result.post.path + '. Astro will reload the post list.', 'ok');
+          const previewNote = result.mode === 'preview' ? ' Rebuild to see new routes in preview.' : ' Astro will reload the post list.';
+          setStatus('Saved to ' + result.post.path + '.' + previewNote, 'ok');
         } catch (error) {
-          setStatus(error.message + ' Make sure the Astro dev server is running with npm run dev.', 'error');
+          setStatus(error.message, 'error');
         }
       });
     </script>

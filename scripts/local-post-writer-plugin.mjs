@@ -1,4 +1,4 @@
-import { mkdir, readdir, readFile, rename, unlink, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, unlink, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -13,6 +13,9 @@ function send(res, status, body) {
   res.statusCode = status;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.end(JSON.stringify(body));
 }
 
@@ -247,35 +250,44 @@ async function savePost(data) {
   };
 }
 
+function createPostMiddleware(server, mode) {
+  return async (req, res) => {
+    try {
+      if (req.method === 'OPTIONS') return send(res, 204, {});
+
+      const requestUrl = new URL(req.url || '/', 'http://127.0.0.1');
+      const slug = requestUrl.searchParams.get('slug');
+
+      if (req.method === 'GET' && slug) {
+        const post = await readPost(slug);
+        return send(res, 200, { ok: true, mode, post });
+      }
+
+      if (req.method === 'GET') {
+        const posts = await listPosts();
+        return send(res, 200, { ok: true, mode, contentDir: path.relative(root, contentDir), posts });
+      }
+
+      if (req.method !== 'POST') return send(res, 405, { ok: false, error: 'Method not allowed.' });
+      const data = await readJson(req);
+      const post = await savePost(data);
+      server.ws?.send({ type: 'full-reload' });
+      return send(res, 201, { ok: true, mode, post });
+    } catch (error) {
+      return send(res, error.status || 400, { ok: false, error: error.message || 'Could not save post.' });
+    }
+  };
+}
+
 export function localPostWriter() {
   return {
     name: 'local-post-writer',
     apply: 'serve',
     configureServer(server) {
-      server.middlewares.use('/api/local-posts', async (req, res) => {
-        try {
-          const requestUrl = new URL(req.url || '/', 'http://127.0.0.1');
-          const slug = requestUrl.searchParams.get('slug');
-
-          if (req.method === 'GET' && slug) {
-            const post = await readPost(slug);
-            return send(res, 200, { ok: true, post });
-          }
-
-          if (req.method === 'GET') {
-            const posts = await listPosts();
-            return send(res, 200, { ok: true, contentDir: path.relative(root, contentDir), posts });
-          }
-
-          if (req.method !== 'POST') return send(res, 405, { ok: false, error: 'Method not allowed.' });
-          const data = await readJson(req);
-          const post = await savePost(data);
-          server.ws.send({ type: 'full-reload' });
-          return send(res, 201, { ok: true, post });
-        } catch (error) {
-          return send(res, error.status || 400, { ok: false, error: error.message || 'Could not save post.' });
-        }
-      });
+      server.middlewares.use('/api/local-posts', createPostMiddleware(server, 'dev'));
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use('/api/local-posts', createPostMiddleware(server, 'preview'));
     },
   };
 }
