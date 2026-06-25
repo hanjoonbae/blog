@@ -17,6 +17,22 @@
   --reading-measure: 672px;
 }
 
+[data-theme="dark"] {
+  --color-foreground: #e2e8f0;
+  --color-heading: #cbd5e1;
+  --color-body: #94a3b8;
+  --color-meta: #64748b;
+  --color-canvas: #020617;
+  --color-surface-hover: rgba(15, 23, 42, 0.6);
+  --color-border: #1e293b;
+  --color-accent: #60a5fa;
+  --color-accent-hover: #93c5fd;
+  --color-code-bg: #0f172a;
+  --color-code-fg: #e5e7eb;
+  --color-selection-bg: #fef4ad;
+  --color-selection-fg: #160404;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -26,6 +42,7 @@ html {
   color: var(--color-foreground);
   font-family: var(--font-sans);
   font-size: 16px;
+  transition: background 0.3s, color 0.3s;
 }
 
 body {
@@ -191,10 +208,14 @@ hr {
 code {
   padding: 2px 5px;
   border-radius: 4px;
-  background: rgba(17, 24, 39, 0.08);
+  background: rgba(15, 23, 42, 0.08);
   color: var(--color-heading);
   font-family: var(--font-mono);
   font-size: 0.9em;
+}
+
+[data-theme="dark"] code {
+  background: rgba(226, 232, 240, 0.1);
 }
 
 pre {
@@ -434,6 +455,7 @@ section + section {
   border-radius: 11px;
   background: var(--color-canvas);
   z-index: -1;
+  transition: background 0.3s;
 }
 
 .category-grid .category-row:hover {
