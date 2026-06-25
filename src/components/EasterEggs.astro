@@ -1,0 +1,199 @@
+---
+// Hidden easter eggs — invisible until triggered, so the minimal UI/UX is
+// untouched in normal use:
+//   1. Konami code (↑↑↓↓←→←→ B A)  → full party: rainbow + confetti + flash
+//   2. DevTools console greeting     → printed once on load
+//   3. Typing "rainbow" / "ㄱ먀ㅜㅠㅐㅈ" → rainbow mode
+//
+// Key detection uses e.code (physical keys), so the word works in both the
+// English and Korean (두벌식) keyboard layouts with the same R-A-I-N-B-O-W keys.
+---
+
+<style is:global>
+  /* Rainbow mode — temporary, reverts itself. Headings/title/strong only,
+     so layout and link affordances stay intact. */
+  .egg-rainbow h1,
+  .egg-rainbow h2,
+  .egg-rainbow h3,
+  .egg-rainbow h4,
+  .egg-rainbow .post-heading,
+  .egg-rainbow .site-title,
+  .egg-rainbow .prose strong {
+    background: linear-gradient(90deg, #ff595e, #ffca3a, #8ac926, #1982c4, #6a4c93, #ff595e);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-shift 2s linear infinite;
+  }
+
+  /* --- Konami party --- */
+  .egg-confetti {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .egg-confetti span {
+    position: absolute;
+    top: -12vh;
+    display: block;
+    animation: egg-fall linear 1 forwards;
+  }
+
+  @keyframes egg-fall {
+    0% { transform: translateY(-12vh) rotate(0); opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(112vh) rotate(900deg); opacity: 0.9; }
+  }
+
+  .egg-flash {
+    position: fixed;
+    inset: 0;
+    z-index: 1999;
+    pointer-events: none;
+    background: linear-gradient(90deg, #ff595e, #ffca3a, #8ac926, #1982c4, #6a4c93, #ff595e);
+    animation: egg-flash 0.85s ease-out forwards;
+  }
+
+  @keyframes egg-flash {
+    0% { opacity: 0; }
+    12% { opacity: 0.4; }
+    100% { opacity: 0; }
+  }
+
+  .egg-party main {
+    animation: egg-wobble 0.5s ease-in-out 4;
+  }
+
+  @keyframes egg-wobble {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(0.7deg); }
+    75% { transform: rotate(-0.7deg); }
+  }
+
+  .egg-party {
+    animation: egg-hue 1.5s linear infinite;
+  }
+
+  @keyframes egg-hue {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .egg-rainbow h1,
+    .egg-rainbow h2,
+    .egg-rainbow h3,
+    .egg-rainbow h4,
+    .egg-rainbow .post-heading,
+    .egg-rainbow .site-title,
+    .egg-rainbow .prose strong,
+    .egg-confetti span,
+    .egg-flash,
+    .egg-party,
+    .egg-party main {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const palette = ['#ff595e', '#ffca3a', '#8ac926', '#1982c4', '#6a4c93'];
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ---- shared: enter rainbow mode for a moment, then revert ----
+    let rainbowTimer: ReturnType<typeof setTimeout> | undefined;
+    const triggerRainbow = (ms = 4000) => {
+      const root = document.documentElement;
+      root.classList.add('egg-rainbow');
+      clearTimeout(rainbowTimer);
+      rainbowTimer = setTimeout(() => root.classList.remove('egg-rainbow'), ms);
+    };
+
+    // ---- confetti burst ----
+    const launchConfetti = (count = 110) => {
+      const layer = document.createElement('div');
+      layer.className = 'egg-confetti';
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('span');
+        const size = 6 + Math.random() * 9;
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.width = size + 'px';
+        p.style.height = size * (0.4 + Math.random()) + 'px';
+        p.style.background = palette[i % palette.length];
+        p.style.borderRadius = Math.random() < 0.5 ? '50%' : '2px';
+        p.style.animationDuration = 2.2 + Math.random() * 2 + 's';
+        p.style.animationDelay = Math.random() * 1.2 + 's';
+        layer.appendChild(p);
+      }
+      document.body.appendChild(layer);
+      setTimeout(() => layer.remove(), 6000);
+    };
+
+    // ---- Konami: the full flashy party ----
+    let partyTimer: ReturnType<typeof setTimeout> | undefined;
+    const triggerParty = () => {
+      triggerRainbow(5500);
+      if (reduced) return;
+
+      const root = document.documentElement;
+      root.classList.add('egg-party');
+      clearTimeout(partyTimer);
+      partyTimer = setTimeout(() => root.classList.remove('egg-party'), 5500);
+
+      launchConfetti(120);
+
+      const flash = document.createElement('div');
+      flash.className = 'egg-flash';
+      document.body.appendChild(flash);
+      setTimeout(() => flash.remove(), 900);
+    };
+
+    const isTyping = () => {
+      const el = document.activeElement;
+      return !!el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || (el as HTMLElement).isContentEditable);
+    };
+
+    // ---- 1. Konami code  +  3. secret word "rainbow" (both via physical keys) ----
+    const konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+    let kPos = 0;
+    const word = ['KeyR', 'KeyA', 'KeyI', 'KeyN', 'KeyB', 'KeyO', 'KeyW'];
+    let buf: string[] = [];
+
+    window.addEventListener('keydown', (e) => {
+      if (isTyping()) return;
+      const code = e.code;
+
+      // konami
+      if (code === konami[kPos]) {
+        kPos += 1;
+        if (kPos === konami.length) {
+          kPos = 0;
+          triggerParty();
+        }
+      } else {
+        kPos = code === konami[0] ? 1 : 0;
+      }
+
+      // secret word — physical R-A-I-N-B-O-W (works in 한/영 both)
+      buf = [...buf, code].slice(-word.length);
+      if (buf.length === word.length && buf.every((c, i) => c === word[i])) {
+        triggerRainbow();
+      }
+    });
+
+    // ---- 2. Console greeting ----
+    console.log(
+      '%c🌈 기술을 배우고, 만들고, 기록합니다.',
+      'font-size:13px;font-weight:600;color:#1982c4;'
+    );
+    console.log(
+      '%c↑↑↓↓←→←→ B A — 혹은 "rainbow"를 입력해보세요.',
+      'font-size:11px;color:#6b7280;'
+    );
+  })();
+</script>

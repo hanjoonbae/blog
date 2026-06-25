@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { SITE_TITLE } from '../consts';
+import EasterEggs from './EasterEggs.astro';
 
 interface Props {
   title: string;
@@ -52,3 +53,4 @@ const displayTitle = title === SITE_TITLE ? title : title + ' - ' + SITE_TITLE;
     }
   });
 </script>
+<EasterEggs />

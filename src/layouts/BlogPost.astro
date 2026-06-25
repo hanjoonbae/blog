@@ -1,12 +1,14 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import TableOfContents from '../components/TableOfContents.astro';
 
-type Props = CollectionEntry<'blog'>['data'] & { readingTime: number };
+type Props = CollectionEntry<'blog'>['data'] & { readingTime: number; headings: MarkdownHeading[] };
 
-const { title, description, pubDate, readingTime } = Astro.props;
+const { title, description, pubDate, readingTime, headings } = Astro.props;
 const formattedDate = pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
@@ -15,7 +17,8 @@ const formattedDate = pubDate.toLocaleDateString('en-US', { year: 'numeric', mon
   <head>
     <BaseHead title={title} description={description} />
   </head>
-  <body>
+  <body class="is-post">
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
     <Header showHero={false} />
     <main>
       <article class="prose">
@@ -29,7 +32,38 @@ const formattedDate = pubDate.toLocaleDateString('en-US', { year: 'numeric', mon
         </header>
         <slot />
       </article>
+      <TableOfContents headings={headings} />
     </main>
     <Footer />
   </body>
 </html>
+
+<style>
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    transform-origin: left center;
+    transform: scaleX(0);
+    background: linear-gradient(90deg, #ff595e, #ffca3a, #8ac926, #1982c4, #6a4c93, #ff595e);
+    background-size: 200% 100%;
+    animation: rainbow-shift 4s linear infinite;
+    z-index: 1001;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  const bar = document.getElementById('scroll-progress');
+  if (bar) {
+    const update = () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = `scaleX(${total > 0 ? scrolled / total : 0})`;
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>

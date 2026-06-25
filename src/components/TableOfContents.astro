@@ -1,0 +1,174 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{items.length > 1 && (
+  <aside class="toc" id="toc" aria-label="목차">
+    <nav>
+      <ul>
+        {items.map((h) => (
+          <li class:list={['toc-item', { 'toc-h3': h.depth === 3 }]}>
+            <a href={`#${h.slug}`} class="toc-link" data-slug={h.slug}>
+              <span class="toc-text">{h.text}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </aside>
+)}
+
+<script>
+  (() => {
+    const toc = document.getElementById('toc');
+    if (!toc) return;
+
+    const links = toc.querySelectorAll<HTMLAnchorElement>('.toc-link');
+    const headingEls = Array.from(links)
+      .map((l) => document.getElementById(l.dataset.slug!))
+      .filter((el): el is HTMLElement => el !== null);
+
+    // smooth-scroll to the heading instead of an instant jump
+    const TOP_OFFSET = 80;
+    links.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const slug = link.dataset.slug!;
+        const target = document.getElementById(slug);
+        if (!target) return;
+        e.preventDefault();
+        const top = target.getBoundingClientRect().top + window.scrollY - TOP_OFFSET;
+        window.scrollTo({ top, behavior: 'smooth' });
+        history.replaceState(null, '', `#${slug}`);
+      });
+    });
+
+    let activeSlug = '';
+    const setActive = (slug: string) => {
+      if (slug === activeSlug) return;
+      activeSlug = slug;
+      let activeLink: HTMLAnchorElement | null = null;
+      links.forEach((l) => {
+        const on = l.dataset.slug === slug;
+        l.classList.toggle('toc-active', on);
+        if (on) activeLink = l;
+      });
+      // keep the active item centered within the TOC panel (auto-scroll)
+      if (activeLink) {
+        const link = activeLink as HTMLAnchorElement;
+        const target = link.offsetTop - toc.clientHeight / 2 + link.clientHeight / 2;
+        toc.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+            return;
+          }
+        }
+      },
+      { rootMargin: '-10% 0px -80% 0px', threshold: 0 }
+    );
+    headingEls.forEach((el) => observer.observe(el));
+  })();
+</script>
+
+<style>
+  .toc {
+    position: fixed;
+    top: 96px;
+    /* just right of the centered 672px content column */
+    left: calc(50% + 336px + 100px);
+    width: 220px;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    z-index: 40;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .toc::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* not enough room for the side column */
+  @media (max-width: 1180px) {
+    .toc {
+      display: none;
+    }
+  }
+
+  .toc nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .toc-item {
+    margin: 0;
+  }
+
+  .toc-item + .toc-item {
+    margin-top: 15px;
+  }
+
+  .toc-h3 {
+    padding-left: 14px;
+  }
+
+  .toc-link {
+    display: flex;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--color-meta);
+    text-decoration: none;
+    line-height: 1.5;
+    transition: color 0.15s;
+  }
+
+  .toc-item:not(.toc-h3) .toc-link {
+    font-weight: 600;
+    color: var(--color-heading);
+  }
+
+  .toc-num {
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .toc-link:hover {
+    color: var(--color-body);
+    text-decoration: none;
+  }
+
+  /* active heading — animated rainbow accent (like .site-desc-nav) */
+  .toc-link.toc-active {
+    font-weight: 600;
+    background: linear-gradient(90deg, #ff595e, #ffca3a, #8ac926, #1982c4, #6a4c93, #ff595e);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: toc-rainbow 4s linear infinite;
+  }
+
+  @keyframes toc-rainbow {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 200% 50%;
+    }
+  }
+</style>
