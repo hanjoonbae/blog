@@ -1,0 +1,179 @@
+---
+title: Quartz와 GitHub Pages로 Obsidian 블로그 만들기
+description: Quartz를 사용해 Obsidian vault를 GitHub Pages 정적 블로그로 배포하는 과정 정리
+pubDate: 2026-06-24
+category: builds
+tags:
+  - quartz
+  - obsidian
+  - github-pages
+---
+
+## 왜 Quartz인가
+
+나는 Obsidian은 글쓰기에 집중하고, GitHub Pages는 게시를 담당하는 단순한 흐름을 원했다. Quartz는 이 목적에 잘 맞는다. Markdown 파일이 들어 있는 폴더를 정적 웹사이트로 바꿔주면서도, Obsidian 스타일 링크, 폴더, 태그, 백링크, 검색, 그래프 뷰를 지원한다.
+
+핵심 흐름은 단순하다.
+
+```txt
+Obsidian에서 Markdown 작성
+Quartz가 사이트 빌드
+GitHub Actions가 GitHub Pages로 배포
+```
+
+## 프로젝트 구조
+
+Quartz 저장소 전체가 블로그 프로젝트이고, 실제 글은 `content` 디렉터리 안에 둔다.
+
+```txt
+quartz/
+  .github/
+    workflows/
+      deploy.yml
+  content/
+    index.md
+    Tools/
+      building-an-obsidian-blog-with-quartz.md
+  quartz.config.ts
+  quartz.layout.ts
+```
+
+나는 `content`를 Obsidian vault로 사용한다. 이렇게 하면 글쓰기 공간은 깔끔하게 유지하면서, Quartz 설정과 배포 파일은 프로젝트 안에 그대로 둘 수 있다.
+
+## Quartz 설치
+
+처음에는 Quartz 저장소를 클론하고 의존성을 설치한다.
+
+```bash
+git clone https://github.com/jackyzha0/quartz.git
+cd quartz
+npm i
+npx quartz create
+```
+
+Quartz는 기본적으로 `v4` 브랜치를 사용하므로, 이 브랜치를 게시 브랜치로 유지했다.
+
+## 내 GitHub 저장소 연결
+
+처음 Quartz를 클론하면 원격 저장소가 Quartz 원본을 바라본다. 개인 블로그로 쓰려면 `origin`은 내 블로그 저장소를 바라보게 바꿔야 한다.
+
+```bash
+git remote rm origin
+git remote add origin https://github.com/hanjoonbae/blog.git
+```
+
+결과적으로 구조는 이렇게 된다.
+
+```txt
+origin   -> 내 블로그 저장소
+upstream -> Quartz 원본 저장소
+```
+
+이제 일반적인 push는 내 블로그 저장소로 가고, Quartz 원본은 나중에 업데이트를 받을 때 참고할 수 있다.
+
+## GitHub Actions로 배포
+
+`.github/workflows/deploy.yml`에 GitHub Actions workflow를 추가했다. `v4` 브랜치에 push할 때마다 실행된다.
+
+```yml
+name: Deploy Quartz site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - v4
+```
+
+workflow는 의존성을 설치하고, Quartz를 빌드하고, `public` 디렉터리를 업로드한 뒤 GitHub Pages로 배포한다.
+
+빌드 명령은 `npx quartz build` 대신 로컬 npm script를 사용했다.
+
+```yml
+- name: Build Quartz
+  run: npm run quartz -- build
+```
+
+이렇게 하면 현재 프로젝트에 설치된 Quartz CLI를 기준으로 빌드할 수 있다.
+
+## 사이트 설정
+
+주요 사이트 설정은 `quartz.config.ts`에 있다. 제목, locale, base URL을 수정했다.
+
+```ts
+pageTitle: "Hanjoon Blog",
+locale: "ko-KR",
+baseUrl: "hanjoonbae.github.io/blog",
+```
+
+레이아웃은 `quartz.layout.ts`에서 관리한다. Quartz는 검색, 다크 모드, 탐색기, 그래프 뷰, 백링크, 목차 같은 유용한 컴포넌트를 기본으로 제공한다.
+
+`content` 안의 폴더 구조는 탐색기에 반영되므로, 폴더를 카테고리처럼 사용할 수 있다.
+
+## 글 작성
+
+새 글은 `content` 아래에 Markdown 파일로 작성한다.
+
+```txt
+content/Tools/my-new-post.md
+content/data/my-data-note.md
+```
+
+일반적인 글은 frontmatter로 시작한다.
+
+```md
+---
+title: 새 글
+tags:
+  - example
+---
+
+## 시작
+
+본문을 쓴다.
+```
+
+나는 `content`를 공개용 Obsidian vault로 사용한다. 그래서 글, 링크, 폴더 구조를 모두 Obsidian에서 직접 관리하고, Quartz는 이 vault를 그대로 정적 사이트로 빌드한다.
+
+## 로컬 미리보기
+
+게시하기 전에는 로컬에서 블로그를 확인할 수 있다.
+
+```bash
+npm run quartz -- build --serve --baseDir blog
+```
+
+브라우저에서는 아래 주소를 연다.
+
+```txt
+http://localhost:8080/blog
+```
+
+## 게시
+
+게시 과정은 일반적인 Git workflow와 같다.
+
+```bash
+git add content
+git commit -m "Add new post"
+git push
+```
+
+push 후 GitHub Actions가 Quartz 사이트를 빌드하고 GitHub Pages로 배포한다.
+
+최종 사이트 주소는 다음과 같다.
+
+```txt
+https://hanjoonbae.github.io/blog/
+```
+
+## 이 구조의 장점
+
+이 구조는 작고 예측 가능하다.
+
+- Obsidian에서 글을 쓴다.
+- Markdown 파일은 Git에 남는다.
+- Quartz가 정적 사이트를 만든다.
+- GitHub Actions가 배포를 맡는다.
+- GitHub Pages가 블로그를 호스팅한다.
+
+로컬에서 노트를 쓰는 감각에 가깝지만, push 한 번으로 공개 블로그까지 이어진다.
