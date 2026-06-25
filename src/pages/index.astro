@@ -28,26 +28,24 @@ const posts = (await getCollection('blog'))
         <SocialLinks />
       </section>
 
+      <section aria-labelledby="categories">
+        <ol class="category-list category-grid">
+          {CATEGORIES.map((category) => (
+            <li>
+              <a class="category-row" href={'/categories/' + category.id + '/'}>
+                <span>{category.label}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       <section aria-labelledby="recent-posts">
         <div class="section-heading">
           <h3 id="recent-posts">Recent Posts</h3>
           <a href="/blog/">All posts</a>
         </div>
         <PostList posts={posts} emptyText="아직 공개된 글이 없습니다." />
-      </section>
-
-      <section aria-labelledby="categories">
-        <h3 id="categories">Categories</h3>
-        <ol class="category-list">
-          {CATEGORIES.map((category) => (
-            <li>
-              <a class="category-row" href={'/categories/' + category.id + '/'}>
-                <span>{category.label}</span>
-                <span>{category.description}</span>
-              </a>
-            </li>
-          ))}
-        </ol>
       </section>
     </main>
     <Footer />

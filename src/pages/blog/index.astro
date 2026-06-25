@@ -17,7 +17,7 @@ const posts = (await getCollection('blog'))
     <BaseHead title={'All Posts'} description={'All posts from ' + SITE_TITLE + '.'} />
   </head>
   <body>
-    <Header />
+    <Header showHero={false} />
     <main>
       <section class="page-title" aria-labelledby="all-posts">
         <h1 id="all-posts">All Posts</h1>

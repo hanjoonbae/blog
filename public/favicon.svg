@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="HB">
-  <rect width="64" height="64" rx="12" fill="#ffffff"/>
-  <rect x="0" y="0" width="64" height="3" fill="url(#g)"/>
-  <text x="32" y="39" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#0f172a">HB</text>
   <defs>
-    <linearGradient id="g" x1="0" x2="1">
-      <stop offset="0" stop-color="#ff595e"/>
-      <stop offset="0.25" stop-color="#ffca3a"/>
-      <stop offset="0.5" stop-color="#8ac926"/>
-      <stop offset="0.75" stop-color="#1982c4"/>
-      <stop offset="1" stop-color="#6a4c93"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#ff595e"/>
+      <stop offset="20%"  stop-color="#ffca3a"/>
+      <stop offset="40%"  stop-color="#8ac926"/>
+      <stop offset="60%"  stop-color="#1982c4"/>
+      <stop offset="80%"  stop-color="#6a4c93"/>
+      <stop offset="100%" stop-color="#ff595e"/>
     </linearGradient>
   </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <text x="32" y="43" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" font-weight="700" fill="#ffffff" letter-spacing="1">HB</text>
 </svg>

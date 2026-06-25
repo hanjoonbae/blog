@@ -23,7 +23,7 @@ const posts = (await getCollection('blog'))
     <BaseHead title={category?.label ?? 'Category'} description={category?.description ?? 'Category archive'} />
   </head>
   <body>
-    <Header />
+    <Header showHero={false} />
     <main>
       <section class="page-title" aria-labelledby="category-title">
         <h1 id="category-title">{category?.label}</h1>

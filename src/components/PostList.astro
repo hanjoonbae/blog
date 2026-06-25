@@ -1,7 +1,5 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import FormattedDate from './FormattedDate.astro';
-import { getCategory } from '../lib/categories';
 
 interface Props {
   posts: CollectionEntry<'blog'>[];
@@ -14,16 +12,14 @@ const { posts, emptyText = '아직 공개된 글이 없습니다.' } = Astro.pro
 {posts.length > 0 ? (
   <ol class="post-list">
     {posts.map((post) => {
-      const category = getCategory(post.data.category);
+      const d = post.data.pubDate;
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const yyyy = d.getFullYear();
       return (
         <li>
-          <a class="post-row" href={'/blog/' + post.id + '/'}>
-            <span class="post-title">{post.data.title}</span>
-            <span class="post-description">{post.data.description}</span>
-            <span class="post-meta">
-              <FormattedDate date={post.data.pubDate} />
-              {category ? <span>{category.label}</span> : null}
-            </span>
+          <a class="post-row-simple" href={'/blog/' + post.id + '/'}>
+            <time class="post-date-simple" datetime={d.toISOString()}>{mm}/{yyyy}</time>
+            <span class="post-title-simple">{post.data.title}</span>
           </a>
         </li>
       );

@@ -3,11 +3,11 @@ export const CATEGORY_IDS = ['aws', 'databricks', 'study', 'builds', 'papers'] a
 export type CategoryId = (typeof CATEGORY_IDS)[number];
 
 export const CATEGORIES: Array<{ id: CategoryId; label: string; description: string }> = [
-  { id: 'aws', label: 'AWS', description: 'AWS certification, architecture, and operations notes.' },
-  { id: 'databricks', label: 'Databricks', description: 'Databricks SQL, data engineering, and platform notes.' },
-  { id: 'study', label: 'Study', description: 'What I am learning and organizing.' },
-  { id: 'builds', label: 'Builds', description: 'Implementation logs, small tools, and experiments.' },
-  { id: 'papers', label: 'Papers', description: 'Paper reviews and reading notes.' },
+  { id: 'aws', label: 'AWS', description: '' },
+  { id: 'databricks', label: 'Databricks', description: '' },
+  { id: 'study', label: 'Study', description: '' },
+  { id: 'builds', label: 'Builds', description: '' },
+  { id: 'papers', label: 'Papers', description: '' },
 ];
 
 export function getCategory(id: string) {

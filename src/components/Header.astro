@@ -1,22 +1,20 @@
 ---
-import { CATEGORIES } from '../lib/categories';
 import { SITE_TITLE } from '../consts';
 
-const pathname = Astro.url.pathname;
+interface Props {
+  showHero?: boolean;
+}
+
+const { showHero = true } = Astro.props;
 ---
 
 <header class="site-header">
   <nav class="site-nav" aria-label="Primary navigation">
     <a class="site-title" href="/">{SITE_TITLE}</a>
-    <div class="nav-links">
-      {CATEGORIES.map((category) => {
-        const href = '/categories/' + category.id + '/';
-        const isActive = pathname === href;
-        return <a href={href} aria-current={isActive ? 'page' : undefined}>{category.label}</a>;
-      })}
-    </div>
   </nav>
-  <div class="header-hero">
-    <img src="/hero-mountains.svg" alt="" aria-hidden="true" class="header-hero-img" />
-  </div>
+  {showHero && (
+    <div class="header-hero">
+      <img src="/hero-mountains.jpg" alt="" aria-hidden="true" class="header-hero-img" />
+    </div>
+  )}
 </header>
