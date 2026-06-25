@@ -1,4 +1,4 @@
-# AGENTS.md instructions for /Users/hanjoonbae/hanjoon/quartz_v5
+# AGENTS.md instructions for /Users/hanjoonbae/hanjoon/blog
 
 <INSTRUCTIONS>
 <!-- omd:start v=1 hash=be71c8d154c9 -->
