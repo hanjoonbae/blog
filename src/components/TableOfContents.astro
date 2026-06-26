@@ -27,7 +27,8 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
 )}
 
 <script>
-  (() => {
+  // View Transitions 환경에서 매 페이지 진입마다 다시 초기화한다.
+  document.addEventListener('astro:page-load', () => {
     const toc = document.getElementById('toc');
     if (!toc) return;
 
@@ -80,7 +81,7 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
       { rootMargin: '-10% 0px -80% 0px', threshold: 0 }
     );
     headingEls.forEach((el) => observer.observe(el));
-  })();
+  });
 </script>
 
 <style>

@@ -56,18 +56,22 @@ const formattedDate = pubDate.toLocaleDateString('en-US', { year: 'numeric', mon
 </style>
 
 <script>
-  const bar = document.getElementById('scroll-progress');
-  if (bar) {
-    const update = () => {
-      const scrolled = window.scrollY;
-      const total = document.documentElement.scrollHeight - window.innerHeight;
-      bar.style.transform = `scaleX(${total > 0 ? scrolled / total : 0})`;
-    };
-    window.addEventListener('scroll', update, { passive: true });
-    update();
-  }
+  // 스크롤 진행바: window 리스너는 한 번만 등록하고, 바 요소는 매번 새로 조회한다
+  // (View Transitions로 본문이 교체돼도 누적 리스너 없이 동작).
+  const updateProgress = () => {
+    const bar = document.getElementById('scroll-progress');
+    if (!bar) return;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.transform = `scaleX(${total > 0 ? window.scrollY / total : 0})`;
+  };
+  window.addEventListener('scroll', updateProgress, { passive: true });
 
-  document.querySelectorAll('pre').forEach((pre) => {
+  // 복사 버튼: 매 페이지 진입마다 새 <pre>에 부착한다.
+  document.addEventListener('astro:page-load', () => {
+    updateProgress();
+
+    document.querySelectorAll('pre').forEach((pre) => {
+    if (pre.querySelector('.copy-btn')) return;
     const btn = document.createElement('button');
     btn.className = 'copy-btn';
     btn.setAttribute('aria-label', 'Copy code');
@@ -93,6 +97,7 @@ const formattedDate = pubDate.toLocaleDateString('en-US', { year: 'numeric', mon
           btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
         }, 1500);
       }
+    });
     });
   });
 </script>

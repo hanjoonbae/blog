@@ -1,0 +1,163 @@
+---
+// 우측 하단 잔잔한 보사노바 BGM 토글.
+// 음원 파일은 public/music/bossa-nova.mp3 에 직접 넣으세요 (라이선스/로열티프리 권장).
+// 브라우저 정책상 첫 클릭 이후에만 소리가 재생됩니다.
+const src = '/music/bossa-nova.mp3';
+---
+
+<div class="bgm" data-bgm transition:persist="bgm">
+  <button
+    type="button"
+    class="bgm-toggle"
+    data-bgm-toggle
+    aria-pressed="false"
+    aria-label="배경 음악 재생"
+    title="배경 음악 재생"
+  >
+    <!-- paused state: music note -->
+    <svg class="bgm-icon bgm-icon-play" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M13 2.5a.75.75 0 0 0-.93-.73l-6 1.5A.75.75 0 0 0 5.5 4v6.04A2.5 2.5 0 1 0 7 12.5V6.59l4.5-1.13v3.58A2.5 2.5 0 1 0 13 11.5V2.5ZM4.5 13.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm6-1a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"
+      ></path>
+    </svg>
+    <!-- playing state: animated equalizer bars -->
+    <svg class="bgm-icon bgm-icon-pause" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+      <rect class="bar bar1" x="2" y="4" width="2.5" height="8" rx="1" fill="currentColor"></rect>
+      <rect class="bar bar2" x="6.75" y="4" width="2.5" height="8" rx="1" fill="currentColor"></rect>
+      <rect class="bar bar3" x="11.5" y="4" width="2.5" height="8" rx="1" fill="currentColor"></rect>
+    </svg>
+  </button>
+  <audio data-bgm-audio src={src} loop preload="none"></audio>
+</div>
+
+<style>
+  .bgm {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 50;
+  }
+
+  .bgm-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    background: var(--color-canvas);
+    color: var(--color-body);
+    cursor: pointer;
+    transition:
+      color 150ms cubic-bezier(0.25, 0.1, 0.25, 1),
+      border-color 150ms cubic-bezier(0.25, 0.1, 0.25, 1),
+      background-color 150ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .bgm-toggle:hover {
+    color: var(--color-heading);
+    background: var(--color-surface-hover);
+  }
+
+  .bgm-toggle:focus-visible {
+    outline: 2px solid var(--color-border);
+    outline-offset: 2px;
+  }
+
+  .bgm-icon {
+    display: block;
+  }
+
+  .bgm-icon-pause {
+    display: none;
+  }
+
+  .bgm[data-playing] .bgm-icon-play {
+    display: none;
+  }
+
+  .bgm[data-playing] .bgm-icon-pause {
+    display: block;
+  }
+
+  .bar {
+    transform-box: fill-box;
+    transform-origin: center bottom;
+  }
+
+  .bgm[data-playing] .bar1 {
+    animation: bgm-eq 1.1s ease-in-out infinite;
+  }
+  .bgm[data-playing] .bar2 {
+    animation: bgm-eq 1.1s ease-in-out infinite 0.18s;
+  }
+  .bgm[data-playing] .bar3 {
+    animation: bgm-eq 1.1s ease-in-out infinite 0.36s;
+  }
+
+  @keyframes bgm-eq {
+    0%,
+    100% {
+      transform: scaleY(0.45);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .bgm {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bgm-toggle {
+      transition: none;
+    }
+    .bgm[data-playing] .bar {
+      animation: none;
+      transform: scaleY(0.8);
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-bgm]');
+  const button = document.querySelector<HTMLButtonElement>('[data-bgm-toggle]');
+  const audio = document.querySelector<HTMLAudioElement>('[data-bgm-audio]');
+
+  if (root && button && audio) {
+    // 잔잔하게 — 볼륨을 낮춰서 시작.
+    audio.volume = 0.35;
+
+    const setState = (playing: boolean) => {
+      root.toggleAttribute('data-playing', playing);
+      button.setAttribute('aria-pressed', String(playing));
+      const label = playing ? '배경 음악 정지' : '배경 음악 재생';
+      button.setAttribute('aria-label', label);
+      button.setAttribute('title', label);
+    };
+
+    button.addEventListener('click', async () => {
+      if (audio.paused) {
+        try {
+          await audio.play();
+          setState(true);
+        } catch {
+          // 자동재생 차단 또는 음원 파일 없음 — 상태 유지.
+          setState(false);
+        }
+      } else {
+        audio.pause();
+        setState(false);
+      }
+    });
+
+    audio.addEventListener('pause', () => setState(false));
+    audio.addEventListener('play', () => setState(true));
+  }
+</script>

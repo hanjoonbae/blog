@@ -1,4 +1,6 @@
 ---
+import MusicPlayer from './MusicPlayer.astro';
+
 const today = new Date();
 ---
 
@@ -6,3 +8,4 @@ const today = new Date();
   <p>&copy; {today.getFullYear()} Hanjoon Bae</p>
   <p><a href="/rss.xml">RSS</a></p>
 </footer>
+<MusicPlayer />

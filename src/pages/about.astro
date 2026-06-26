@@ -123,6 +123,10 @@ import { SITE_TITLE } from '../consts';
 </html>
 
 <script>
+  // View Transitions 환경에서 /about 진입마다 터미널 애니메이션을 다시 실행한다.
+  document.addEventListener('astro:page-load', () => {
+  if (!document.getElementById('terminal')) return;
+
   const LINES: Array<{ prompt: string; text: string; delay: number }> = [
     { prompt: '$', text: 'whoami', delay: 0 },
     { prompt: '>', text: 'Hanjoon Bae', delay: 600 },
@@ -258,6 +262,7 @@ import { SITE_TITLE } from '../consts';
   } else {
     runSequence();
   }
+  });
 </script>
 
 <style>
