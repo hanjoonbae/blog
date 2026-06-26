@@ -26,11 +26,17 @@ const posts = (await getCollection('blog'))
         <SocialLinks />
       </section>
 
+      <a class="intro-card" href="/about/">
+        <span class="intro-card-name">Hanjoon Bae</span>
+        <span class="intro-card-desc">Studying Materials Science & Data Science</span>
+        <span class="intro-card-arrow" aria-hidden="true">→</span>
+      </a>
+
       <section aria-labelledby="categories">
         <ol class="category-list category-grid">
           {CATEGORIES.map((category) => (
             <li>
-              <a class="category-row" href={'/categories/' + category.id + '/'}>
+              <a class="category-row" href={category.href}>
                 <span>{category.label}</span>
               </a>
             </li>

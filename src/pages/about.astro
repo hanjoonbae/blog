@@ -13,12 +13,528 @@ import { SITE_TITLE } from '../consts';
   <body>
     <Header showHero={false} />
     <main>
-      <article class="prose">
-        <h1>About</h1>
-        <p>AWS, Databricks, 구현, 공부, 논문 리뷰를 기록합니다.</p>
-        <p>글은 가능한 한 작게 시작해서, 다시 읽을 수 있을 만큼만 정확하게 정리합니다.</p>
-      </article>
+      <div class="about-terminal" id="terminal">
+        <div class="terminal-lines" id="terminalLines" aria-live="polite"></div>
+        <button class="terminal-skip" id="skipBtn" aria-label="타이핑 건너뛰기">skip</button>
+      </div>
+
+      <div class="about-timeline" id="timeline" aria-hidden="true">
+
+        <!-- 2020 -->
+        <div class="timeline-group">
+          <div class="timeline-year-label">2020</div>
+          <div class="timeline-entries">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <span class="timeline-title">서울대학교 공과대학 재료공학부 입학</span>
+                <p class="timeline-desc">공군 복무 후 복학 (2020.11 – 2022.08 병장 만기전역).</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2024 -->
+        <div class="timeline-group">
+          <div class="timeline-year-label">2024</div>
+          <div class="timeline-entries">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <span class="timeline-title">기능성복합재료 연구실 학부생 인턴</span>
+                <p class="timeline-desc">서울대학교 재료공학부. 재료 특성 분석 실험 보조.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2025 -->
+        <div class="timeline-group">
+          <div class="timeline-year-label">2025</div>
+          <div class="timeline-entries">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <span class="timeline-title">서울대 DBX 연구실 리서치 인턴</span>
+                <p class="timeline-desc">데이터사이언스대학원 (지도: 정형수 교수님). Knowledge Distillation, LoRA 기술분석 및 Tabular Foundation Model 논문 세미나 발표.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <span class="timeline-title">AI 기반 양극재 특성 예측 (졸업논문)</span>
+                <p class="timeline-desc">지도: 강기석 교수님. M3GNet + Cluster Expansion + Bayesian Optimization으로 DRX 양극재 전기화학적 거동 예측. DFT 대비 계산 비용 획기적 절감.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <span class="timeline-title">Agentic RAG (LangGraph + FAISS) 프로젝트</span>
+                <p class="timeline-desc">KOSHA 기술지침 도메인 특화 Agentic RAG 파이프라인 구축.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2026 -->
+        <div class="timeline-group">
+          <div class="timeline-year-label">2026</div>
+          <div class="timeline-entries">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <span class="timeline-title">자비스앤빌런즈 DA 인턴</span>
+                <ul class="timeline-bullets">
+                  <li>삼쩜삼 유저 대상 CRM 세그먼트 설계 및 검증 로직 구축</li>
+                  <li>Databricks + MLflow 기반 CRM 유입확률 모델 배포 자동화</li>
+                  <li>QuickSight CRM 성과 모니터링 대시보드 제작</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOW -->
+        <div class="timeline-group timeline-group--now">
+          <div class="timeline-year-label">NOW</div>
+          <div class="timeline-entries">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <span class="timeline-title">기술을 배우고, 만들고, 기록합니다</span>
+                <div class="timeline-stack">
+                  <span>Python</span><span>SQL</span><span>C++</span><span>PyTorch</span><span>LangChain</span><span>MLflow</span><span>Databricks</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2026 (future) -->
+        <div class="timeline-group timeline-group--future">
+          <div class="timeline-year-label">2026</div>
+          <div class="timeline-entries">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <span class="timeline-title">서울대학교 공과대학 재료공학부 졸업 예정 (8월)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </main>
     <Footer />
   </body>
 </html>
+
+<script>
+  const LINES: Array<{ prompt: string; text: string; delay: number }> = [
+    { prompt: '$', text: 'whoami', delay: 0 },
+    { prompt: '>', text: 'Hanjoon Bae', delay: 600 },
+    { prompt: '$', text: 'cat stack.txt', delay: 1300 },
+    { prompt: '>', text: 'Python  SQL  Databricks  MLflow  LangChain  PyTorch', delay: 1900 },
+    { prompt: '$', text: 'echo $ABOUT', delay: 2900 },
+    { prompt: '>', text: 'Studying Materials Science & Data Science', delay: 3500 },
+  ];
+
+  const CHAR_DELAY = 36;
+  const terminalEl = document.getElementById('terminal')!;
+  const linesEl = document.getElementById('terminalLines')!;
+  const skipBtn = document.getElementById('skipBtn')!;
+  const timelineEl = document.getElementById('timeline')!;
+
+  let timers: ReturnType<typeof setTimeout>[] = [];
+  let done = false;
+
+  function createRow(prompt: string, isPrompt: boolean): HTMLElement {
+    const row = document.createElement('div');
+    row.className = 'terminal-row';
+
+    const promptEl = document.createElement('span');
+    promptEl.className = isPrompt ? 'terminal-prompt' : 'terminal-output';
+    promptEl.textContent = prompt + ' ';
+    row.appendChild(promptEl);
+
+    const textEl = document.createElement('span');
+    textEl.className = isPrompt ? 'terminal-text terminal-text--cmd' : 'terminal-text terminal-text--val';
+    row.appendChild(textEl);
+
+    linesEl.appendChild(row);
+    return textEl;
+  }
+
+  function typeText(el: HTMLElement, text: string, onDone?: () => void) {
+    let i = 0;
+    const cursor = document.createElement('span');
+    cursor.className = 'terminal-cursor';
+    cursor.textContent = '▌';
+    el.appendChild(cursor);
+
+    function tick() {
+      if (done) return;
+      if (i < text.length) {
+        cursor.insertAdjacentText('beforebegin', text[i]);
+        i++;
+        timers.push(setTimeout(tick, CHAR_DELAY));
+      } else {
+        cursor.remove();
+        onDone?.();
+      }
+    }
+    tick();
+  }
+
+  function revealAll() {
+    linesEl.innerHTML = '';
+    for (const line of LINES) {
+      const textEl = createRow(line.prompt, line.prompt === '$');
+      textEl.textContent = line.text;
+    }
+    finishTerminal();
+  }
+
+  function finishTerminal() {
+    done = true;
+    skipBtn.style.display = 'none';
+    terminalEl.classList.add('terminal--done');
+    timelineEl.removeAttribute('aria-hidden');
+    timelineEl.classList.add('timeline--visible');
+    observeTimeline();
+  }
+
+  function runSequence() {
+    let idx = 0;
+
+    function nextLine() {
+      if (done || idx >= LINES.length) {
+        if (!done) finishTerminal();
+        return;
+      }
+      const line = LINES[idx];
+      const textEl = createRow(line.prompt, line.prompt === '$');
+
+      const afterType = () => {
+        idx++;
+        const next = LINES[idx];
+        if (!next) {
+          const t = setTimeout(() => { if (!done) finishTerminal(); }, 400);
+          timers.push(t);
+          return;
+        }
+        const gap = next.delay - line.delay - line.text.length * CHAR_DELAY;
+        const t = setTimeout(nextLine, Math.max(gap, 180));
+        timers.push(t);
+      };
+
+      const t = setTimeout(() => {
+        if (!done) typeText(textEl, line.text, afterType);
+      }, idx === 0 ? 300 : 0);
+      timers.push(t);
+    }
+
+    nextLine();
+  }
+
+  function observeTimeline() {
+    const groups = document.querySelectorAll('.timeline-group');
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).classList.add('timeline-item--visible');
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.15 }
+    );
+    groups.forEach((el) => io.observe(el));
+  }
+
+  skipBtn.addEventListener('click', () => {
+    timers.forEach(clearTimeout);
+    timers = [];
+    done = true;
+    revealAll();
+  });
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    revealAll();
+  } else {
+    runSequence();
+  }
+</script>
+
+<style>
+  /* ── Terminal ── */
+  .about-terminal {
+    position: relative;
+    margin-bottom: 56px;
+    padding: 20px 24px 24px;
+    border-radius: 12px;
+    background: var(--color-code-bg);
+    color: var(--color-code-fg);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.75;
+    min-height: 160px;
+  }
+
+  .about-terminal::before {
+    content: '';
+    display: block;
+    margin-bottom: 16px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff5f57;
+    box-shadow: 20px 0 0 #febc2e, 40px 0 0 #28c840;
+  }
+
+  .terminal-row {
+    display: flex;
+    gap: 6px;
+    min-height: 1.75em;
+  }
+
+  /* $ prompt — green, stands out as the "input" marker */
+  .terminal-prompt {
+    color: #8ac926;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  /* > output marker — dimmed so it recedes vs the value */
+  .terminal-output {
+    color: #475569;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  /* command text (after $) — bright white */
+  .terminal-text--cmd {
+    color: #e2e8f0;
+    font-weight: 500;
+  }
+
+  /* output value (after >) — warm cyan, clearly different from commands */
+  .terminal-text--val {
+    color: #7dd3fc;
+  }
+
+  .terminal-cursor {
+    display: inline-block;
+    color: #8ac926;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .terminal-skip {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 2px 8px;
+    border: 1px solid #334155;
+    border-radius: 4px;
+    background: transparent;
+    color: #475569;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .terminal-skip:hover {
+    color: var(--color-code-fg);
+    border-color: #475569;
+  }
+
+  /* ── Timeline ── */
+  .about-timeline {
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .about-timeline.timeline--visible {
+    opacity: 1;
+  }
+
+  /* Group = one row in the year-column grid */
+  .timeline-group {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 0 24px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .timeline-group.timeline-item--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* connector line running through the full height of each group */
+  .timeline-group:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 44px; /* right edge of year col (52px) minus ~half dot width */
+    top: 20px;
+    bottom: 0;
+    border-left: 1px dashed var(--color-border);
+  }
+
+  /* ── Year label (left col) ── */
+  .timeline-year-label {
+    padding-top: 2px;
+    color: var(--color-meta);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: right;
+    white-space: nowrap;
+    /* dot after the text, sitting on the connector line */
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+
+  .timeline-year-label::after {
+    content: '';
+    display: block;
+    flex-shrink: 0;
+    margin-top: 5px; /* vertically center dot with first line of text */
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-border);
+  }
+
+  .timeline-group--now .timeline-year-label {
+    color: var(--color-heading);
+    font-weight: 700;
+  }
+
+  .timeline-group--now .timeline-year-label::after {
+    background: var(--color-heading);
+  }
+
+  .timeline-group--future .timeline-year-label {
+    color: var(--color-border);
+  }
+
+  .timeline-group--future .timeline-year-label::after {
+    background: transparent;
+    border: 1px dashed var(--color-border);
+  }
+
+  /* future group has no connector below */
+  .timeline-group--future::after {
+    display: none;
+  }
+
+  /* ── Entries (right col) ── */
+  .timeline-entries {
+    padding-bottom: 44px;
+  }
+
+  .timeline-item {
+    padding-bottom: 16px;
+  }
+
+  .timeline-item:last-child {
+    padding-bottom: 0;
+  }
+
+  .timeline-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .timeline-title {
+    color: var(--color-heading);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .timeline-group--now .timeline-title {
+    color: var(--color-foreground);
+  }
+
+  .timeline-group--future .timeline-title {
+    color: var(--color-meta);
+    font-weight: 400;
+  }
+
+  .timeline-desc {
+    margin: 0;
+    color: var(--color-body);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .timeline-bullets {
+    margin: 4px 0 0;
+    padding-left: 16px;
+    list-style: disc;
+  }
+
+  .timeline-bullets li {
+    color: var(--color-body);
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 2px 0;
+  }
+
+  .timeline-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .timeline-stack span {
+    padding: 1px 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    color: var(--color-meta);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  /* ── Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .timeline-group {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .about-timeline {
+      transition: none;
+    }
+    .terminal-cursor {
+      animation: none;
+    }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 640px) {
+    .about-terminal {
+      font-size: 13px;
+      padding: 16px 16px 20px;
+    }
+
+    .timeline-group {
+      grid-template-columns: 40px 1fr;
+      gap: 0 14px;
+    }
+
+    .timeline-year-label {
+      font-size: 10px;
+    }
+  }
+</style>

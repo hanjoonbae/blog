@@ -1,14 +1,13 @@
 ---
 title: Databricks DEA
 description: Databricks Certified Data Engineer Associate 시험 준비 자료와 진행 상황 정리
-pubDate: 2026-06-24
-category: databricks
+pubDate: 2026-04-24
+category: study
 tags:
   - databricks
   - data-engineering
   - certification
 ---
-
 ## 개요
 
 Databricks Certified Data Engineer Associate 시험 준비 자료와 진행 상황을 정리하는 노트입니다.

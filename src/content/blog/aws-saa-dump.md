@@ -2,7 +2,7 @@
 title: SAA dump 풀이
 description: AWS SAA 덤프 문제 풀이 및 오답 정리
 pubDate: 2026-06-24
-category: aws
+category: study
 tags:
   - aws
   - certification

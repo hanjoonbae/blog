@@ -1,5 +1,5 @@
 ---
-omd: 0.1
+sdsddddomd: 0.1
 brand: Hanjoon Bae (기술 블로그)
 bootstrapped_from: stefanzweifel.dev (user-supplied spec)
 bootstrapped_at: 2026-06-24T08:08:52Z
@@ -43,7 +43,6 @@ tokens:
   layout: { reading-measure: 672, container: "max-w-2xl (672px), centered single column" }
   rounded: { sm: 4, md: 8, lg: 8, full: 9999 }
 ---
-
 # Design System — Hanjoon Bae 기술 블로그
 
 > Bootstrapped from a user-supplied spec of **stefanzweifel.dev** — a minimalist personal
@@ -122,17 +121,17 @@ _Note: stefan.md uses no web fonts for body — the system stack is the delibera
 
 ### Type Scale
 
-| Element                    | Size | Weight | Line Height | Color                 |
-| -------------------------- | ---- | ------ | ----------- | --------------------- |
-| `<body>`                   | 16px | 400    | 1.5         | Slate 900 (`#0f172a`) |
-| `<h1>` (name / title)      | 16px | 500    | 1.5         | Slate 900             |
-| `<h2>` (role / subtitle)   | 16px | 500    | 1.5         | Slate 600 (`#475569`) |
-| `<h3>` (section heading)   | 16px | 500    | 1.5         | Slate 900             |
-| `<p>` (paragraph)          | 16px | 400    | 1.75        | Slate 600–700         |
-| Navigation link            | 14px | 500    | —           | Slate 600             |
-| Date / meta                | 16px | 400    | —           | Gray 500 (`#6b7280`)  |
-| Project / post name        | 16px | 600    | —           | Slate 800 (`#1e293b`) |
-| Project / post description | 14px | 400    | —           | Slate 600             |
+| Element                    | Size | Weight | Line Height | Color                   |
+| -------------------------- | ---- | ------ | ----------- | ----------------------- |
+| `<body>`                 | 16px | 400    | 1.5         | Slate 900 (`#0f172a`) |
+| `<h1>` (name / title)    | 16px | 500    | 1.5         | Slate 900               |
+| `<h2>` (role / subtitle) | 16px | 500    | 1.5         | Slate 600 (`#475569`) |
+| `<h3>` (section heading) | 16px | 500    | 1.5         | Slate 900               |
+| `<p>` (paragraph)        | 16px | 400    | 1.75        | Slate 600–700          |
+| Navigation link            | 14px | 500    | —          | Slate 600               |
+| Date / meta                | 16px | 400    | —          | Gray 500 (`#6b7280`)  |
+| Project / post name        | 16px | 600    | —          | Slate 800 (`#1e293b`) |
+| Project / post description | 14px | 400    | —          | Slate 600               |
 
 ### Principles
 
@@ -193,11 +192,11 @@ _Tokens from the stefan.md spec. The blog's relevant surfaces are post lists, li
 
 ## 6. Depth & Elevation
 
-| Level                | Treatment                                        | Use                                                |
-| -------------------- | ------------------------------------------------ | -------------------------------------------------- |
+| Level                | Treatment                                        | Use                                                 |
+| -------------------- | ------------------------------------------------ | --------------------------------------------------- |
 | Flat (Level 0)       | No shadow, no border                             | Page background, body text, headings — the default |
-| Hover tint (Level 1) | Slate-50/25 background + Slate 300 dashed border | Post/project rows on hover                         |
-| Code surface         | gray-900 fill on the white page                  | Code blocks                                        |
+| Hover tint (Level 1) | Slate-50/25 background + Slate 300 dashed border | Post/project rows on hover                          |
+| Code surface         | gray-900 fill on the white page                  | Code blocks                                         |
 
 **Shadow Philosophy**: there is essentially no elevation system — stefan.md uses **no drop shadows**. Depth and grouping come from whitespace, the occasional dashed hover border, and the dark code surface contrasting the white page. Do not add box-shadows; flatness is the identity.
 
@@ -315,32 +314,32 @@ _Personas below are fictional reader archetypes informed by the blog's actual su
 
 ## 14. States
 
-| State                                     | Treatment                                                                                                                     |
-| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **Empty (index, no posts in a category)** | White canvas. One Gray 500 (`#6b7280`) line at 16px: "아직 글이 없습니다." No illustration, no emoji.                         |
-| **Empty (search, no results)**            | One Gray 500 line: "검색 결과가 없습니다." Suggestions only if genuinely useful.                                              |
+| State                                           | Treatment                                                                                                                      |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Empty (index, no posts in a category)** | White canvas. One Gray 500 (`#6b7280`) line at 16px: "아직 글이 없습니다." No illustration, no emoji.                        |
+| **Empty (search, no results)**            | One Gray 500 line: "검색 결과가 없습니다." Suggestions only if genuinely useful.                                               |
 | **Loading (page / route transition)**     | White background with faint slate skeleton blocks at final dimensions. No colored shimmer — stays in the slate/white palette. |
 | **Error (page not found)**                | A single paragraph in Slate 600, specific and without apology: which page is missing and where to go instead. No 🚫 or ⚠.     |
-| **Hover (link)**                          | Underline removed; no color change, no layout shift.                                                                          |
-| **Hover (post row)**                      | Slate-50/25 background + Slate 300 dashed border + rounded corners.                                                           |
-| **Active nav item**                       | Slate 900 (`#0f172a`) at weight 600 marks the current section — color/weight, not a chromatic accent.                         |
-| **Selection**                             | `#fef4ad` background, `#160404` text.                                                                                         |
-| **Code block**                            | gray-900 surface, gray-200 text, JetBrains Mono.                                                                              |
+| **Hover (link)**                          | Underline removed; no color change, no layout shift.                                                                           |
+| **Hover (post row)**                      | Slate-50/25 background + Slate 300 dashed border + rounded corners.                                                            |
+| **Active nav item**                       | Slate 900 (`#0f172a`) at weight 600 marks the current section — color/weight, not a chromatic accent.                       |
+| **Selection**                             | `#fef4ad` background, `#160404` text.                                                                                      |
+| **Code block**                            | gray-900 surface, gray-200 text, JetBrains Mono.                                                                               |
 
 ## 15. Motion & Easing
 
 **Durations**:
 
-| Token             | Value | Use                                            |
-| ----------------- | ----- | ---------------------------------------------- |
+| Token               | Value | Use                                            |
+| ------------------- | ----- | ---------------------------------------------- |
 | `motion-instant`  | 0ms   | State commits, toggle                          |
 | `motion-fast`     | 150ms | Hover transitions (underline, background tint) |
 | `motion-standard` | 250ms | Route transitions, small reveals               |
 
 **Easings**:
 
-| Token           | Curve                              | Use                           |
-| --------------- | ---------------------------------- | ----------------------------- |
+| Token             | Curve                                | Use                           |
+| ----------------- | ------------------------------------ | ----------------------------- |
 | `ease-standard` | `cubic-bezier(0.25, 0.1, 0.25, 1)` | Hover and two-way transitions |
 
 **Explicitly forbidden.** No spring, no bounce, no overshoot. Motion is limited to subtle hover transitions (underline removal, faint background tint) — matching the restraint of the visual system. A bouncing element would break the quiet document feel.

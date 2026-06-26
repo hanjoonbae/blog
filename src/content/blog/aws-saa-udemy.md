@@ -2,7 +2,7 @@
 title: udemy SAA 필기
 description: Udemy AWS SAA 강의 필기 정리
 pubDate: 2026-06-24
-category: aws
+category: study
 tags:
   - aws
   - certification

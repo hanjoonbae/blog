@@ -1,14 +1,13 @@
 ---
 title: SpaceX
 description: SpaceX의 핵심 사업, 최근 동향, 강점과 리스크를 정리한 조사 보고서 (2026년 5월 기준)
-pubDate: 2026-05-22
+pubDate: 2026-04-22
 category: study
 tags:
   - spacex
   - space
   - starlink
 ---
-
 ## 조사 개요
 
 SpaceX는 2002년 일론 머스크가 설립한 미국의 민간 우주 기업이다. 회사의 큰 목표는 발사 비용을 낮추고, 장기적으로는 인류가 지구 밖에서도 활동할 수 있는 운송 인프라를 만드는 것이다. 현재 SpaceX는 재사용 로켓, 유인 우주선, 위성 인터넷, 달 및 화성 탐사 기술을 동시에 개발하고 있다.
@@ -74,5 +73,5 @@ SpaceX는 단순한 로켓 발사 회사라기보다, 우주 운송과 위성 �
 - [SpaceX Launches](https://www.spacex.com/launches/Launches)
 - [NASA Commercial Crew Program](https://www.nasa.gov/commercialcrew)
 - [NASA Human Landing Systems](https://www.nasa.gov/?p=848085)
-- [NASA OIG: NASA's Management of the Human Landing System Contracts](https://oig.nasa.gov/audits/nasas-management-of-the-human-landing-system-contracts/)
+- [NASA OIG: NASA&#39;s Management of the Human Landing System Contracts](https://oig.nasa.gov/audits/nasas-management-of-the-human-landing-system-contracts/)
 - [Reuters: FCC approves SpaceX plan to deploy additional 7,500 Starlink satellites](https://www.investing.com/news/world-news/fcc-approves-spacexplan-to-deploy-additional-7500-starlink-satellites-4440385)

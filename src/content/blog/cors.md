@@ -1,7 +1,7 @@
 ---
 title: CORS 에러
 description: CORS가 무엇인지, 왜 필요한지, 자주 보는 원인과 해결 순서를 정리한 글
-pubDate: 2026-06-24
+pubDate: 2026-05-24
 category: study
 tags:
   - cors
@@ -35,13 +35,13 @@ scheme + host + port
 
 예시는 다음과 같다.
 
-| URL | `http://localhost:3000`과 같은 출처인가 | 이유 |
-| --- | --- | --- |
-| `http://localhost:3000/page` | 같음 | scheme, host, port가 모두 같음 |
-| `http://localhost:8080/api` | 다름 | port가 다름 |
-| `https://localhost:3000` | 다름 | scheme이 다름 |
-| `http://127.0.0.1:3000` | 다름 | host가 다름 |
-| `https://example.com` | 다름 | scheme, host가 다름 |
+| URL                            | `http://localhost:3000`과 같은 출처인가 | 이유                           |
+| ------------------------------ | ----------------------------------------- | ------------------------------ |
+| `http://localhost:3000/page` | 같음                                      | scheme, host, port가 모두 같음 |
+| `http://localhost:8080/api`  | 다름                                      | port가 다름                    |
+| `https://localhost:3000`     | 다름                                      | scheme이 다름                  |
+| `http://127.0.0.1:3000`      | 다름                                      | host가 다름                    |
+| `https://example.com`        | 다름                                      | scheme, host가 다름            |
 
 개발할 때 프론트엔드와 백엔드를 다른 포트로 띄우면 거의 항상 cross-origin 상황이 된다.
 

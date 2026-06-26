@@ -254,13 +254,13 @@ pre::before {
   position: absolute;
   top: 16px;
   left: 18px;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: #ff5f57;
   box-shadow:
-    20px 0 0 #febc2e,
-    40px 0 0 #28c840;
+    17px 0 0 #febc2e,
+    34px 0 0 #28c840;
 }
 
 pre code {
@@ -278,6 +278,75 @@ blockquote {
 .intro,
 .page-title {
   margin-bottom: 48px;
+}
+
+.intro-card {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 12px;
+  margin: 0 0 32px;
+  border-radius: 8px;
+  border: 1px dashed transparent;
+  text-decoration: none;
+  background: linear-gradient(90deg, rgba(255,89,94,0.8), rgba(255,202,58,0.8), rgba(138,201,38,0.8), rgba(25,130,196,0.8), rgba(106,76,147,0.8), rgba(255,89,94,0.8));
+  background-size: 200% 100%;
+  background-clip: padding-box;
+  animation: rainbow-shift 4s linear infinite paused;
+  transition: border-color 0.25s;
+  position: relative;
+}
+
+.intro-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 7px;
+  background: var(--color-canvas);
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+
+.intro-card:hover {
+  border-color: transparent;
+  animation-play-state: running;
+  text-decoration: none;
+}
+
+.intro-card:hover::before {
+  opacity: 0;
+}
+
+.intro-card-name {
+  color: var(--color-heading);
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  position: relative;
+  transition: color 0.25s;
+}
+
+.intro-card-desc {
+  color: var(--color-body);
+  font-size: 14px;
+  font-weight: 400;
+  flex: 1;
+  position: relative;
+  transition: color 0.25s;
+}
+
+.intro-card-arrow {
+  color: var(--color-meta);
+  font-size: 14px;
+  margin-left: auto;
+  position: relative;
+  transition: color 0.25s;
+}
+
+.intro-card:hover .intro-card-name,
+.intro-card:hover .intro-card-desc,
+.intro-card:hover .intro-card-arrow {
+  color: #ffffff;
 }
 
 .post-header {
@@ -753,4 +822,45 @@ section + section {
   .nav-links {
     justify-content: flex-start;
   }
+}
+
+/* Code block copy button */
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background: #161b22;
+  color: #8b949e;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+
+.copy-btn:hover {
+  color: #e6edf3;
+  border-color: #6e7681;
+  background: #21262d;
+}
+
+.copy-btn--copied {
+  color: #3fb950;
+  border-color: #3fb950;
+}
+
+/* About page — terminal text colors (JS-generated elements can't use scoped styles) */
+.terminal-text--cmd {
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.terminal-text--val {
+  color: #51dcae;
 }

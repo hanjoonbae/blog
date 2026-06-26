@@ -34,6 +34,23 @@ const formattedDate = pubDate.toLocaleDateString('en-US', { year: 'numeric', mon
       </article>
       <TableOfContents headings={headings} />
     </main>
+    <div class="giscus-wrap">
+      <script is:inline src="https://giscus.app/client.js"
+        data-repo="hanjoonbae/hanjoonbae.github.io"
+        data-repo-id="R_kgDOSiipXQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOSiipXc4C_6jv"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="https://hanjoonbae.github.io/giscus-theme.css"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
     <Footer />
   </body>
 </html>
@@ -66,4 +83,33 @@ const formattedDate = pubDate.toLocaleDateString('en-US', { year: 'numeric', mon
     window.addEventListener('scroll', update, { passive: true });
     update();
   }
+
+  document.querySelectorAll('pre').forEach((pre) => {
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.setAttribute('aria-label', 'Copy code');
+    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+    pre.appendChild(btn);
+
+    btn.addEventListener('click', async () => {
+      const codeEl = pre.querySelector('code');
+      const rawText = codeEl ? codeEl.innerText : pre.innerText;
+      const langClass = codeEl ? Array.from(codeEl.classList).find(c => c.startsWith('language-')) : null;
+      const lang = langClass ? langClass.replace('language-', '') : '';
+      const text = lang ? `\`\`\`${lang}\n${rawText}\n\`\`\`` : `\`\`\`\n${rawText}\n\`\`\``;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>`;
+        btn.classList.add('copy-btn--copied');
+        setTimeout(() => {
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+          btn.classList.remove('copy-btn--copied');
+        }, 1500);
+      } catch {
+        setTimeout(() => {
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+        }, 1500);
+      }
+    });
+  });
 </script>

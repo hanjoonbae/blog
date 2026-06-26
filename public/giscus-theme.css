@@ -1,0 +1,192 @@
+/* giscus custom theme — matches hanjoonbae.github.io design */
+
+.gsc-main {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  color: #475569;
+}
+
+.gsc-comments {
+  gap: 16px;
+}
+
+/* Header */
+.gsc-header {
+  padding-bottom: 12px;
+}
+
+.gsc-left-header p,
+.gsc-right-header p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Comment box */
+.gsc-comment-box {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.gsc-comment-box-tabs {
+  border-bottom: 1px solid #cbd5e1;
+  background: transparent;
+}
+
+.gsc-comment-box-tab-link {
+  color: #475569;
+  font-size: 14px;
+  border-bottom: 2px solid transparent;
+}
+
+.gsc-comment-box-tab-link.selected,
+.gsc-comment-box-tab-link:hover {
+  color: #0f172a;
+  border-bottom-color: #0f172a;
+}
+
+.gsc-comment-box-textarea {
+  background: #ffffff;
+  color: #0f172a;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  border: none;
+  resize: vertical;
+}
+
+.gsc-comment-box-textarea:focus {
+  outline: none;
+}
+
+.gsc-comment-box-bottom {
+  background: transparent;
+  border-top: 1px solid #cbd5e1;
+  padding: 8px 12px;
+}
+
+/* Submit button */
+.gsc-comment-box-submit {
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.gsc-comment-box-submit:hover {
+  background: #1e293b;
+}
+
+.gsc-comment-box-submit:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+/* Sign-in button */
+.gsc-social-reaction-summary-item,
+.btn,
+.btn-primary {
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Individual comments */
+.gsc-comment {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.gsc-comment-author {
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.gsc-comment-author-avatar img {
+  border-radius: 50%;
+}
+
+.gsc-comment-content {
+  color: #475569;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.gsc-comment-meta {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* Reactions */
+.gsc-reactions-count {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.gsc-social-reaction-summary-item {
+  border: 1px solid #cbd5e1;
+  border-radius: 99px;
+  background: transparent;
+  color: #475569;
+  font-size: 13px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.gsc-social-reaction-summary-item:hover {
+  border-color: #94a3b8;
+  background: rgba(248, 250, 252, 0.5);
+}
+
+/* Pagination */
+.gsc-pagination button {
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: transparent;
+  color: #475569;
+  font-size: 14px;
+  transition: border-color 0.15s;
+}
+
+.gsc-pagination button:hover {
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+/* Reply */
+.gsc-reply {
+  border-top: 1px solid #cbd5e1;
+}
+
+/* Loading */
+.gsc-loading {
+  color: #6b7280;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .gsc-main { color: #94a3b8; }
+  .gsc-comment-box,
+  .gsc-comment { border-color: #1e293b; background: #0f172a; }
+  .gsc-comment-box-tabs { border-bottom-color: #1e293b; }
+  .gsc-comment-box-tab-link { color: #94a3b8; }
+  .gsc-comment-box-tab-link.selected,
+  .gsc-comment-box-tab-link:hover { color: #e2e8f0; border-bottom-color: #e2e8f0; }
+  .gsc-comment-box-textarea { background: #0f172a; color: #e2e8f0; }
+  .gsc-comment-box-bottom { border-top-color: #1e293b; }
+  .gsc-comment-author { color: #e2e8f0; }
+  .gsc-comment-content { color: #94a3b8; }
+  .gsc-comment-meta,
+  .gsc-left-header p,
+  .gsc-right-header p { color: #64748b; }
+  .gsc-social-reaction-summary-item { border-color: #1e293b; color: #94a3b8; }
+  .gsc-social-reaction-summary-item:hover { border-color: #334155; background: rgba(15, 23, 42, 0.6); }
+  .gsc-pagination button { border-color: #1e293b; color: #94a3b8; }
+  .gsc-pagination button:hover { border-color: #334155; color: #e2e8f0; }
+  .gsc-reply { border-top-color: #1e293b; }
+  .gsc-comment-box-submit { background: #e2e8f0; color: #0f172a; }
+  .gsc-comment-box-submit:hover { background: #cbd5e1; }
+}

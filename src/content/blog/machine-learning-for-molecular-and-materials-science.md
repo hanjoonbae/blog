@@ -1,7 +1,7 @@
 ---
 title: "Machine learning for molecular and materials science 리뷰"
 description: "Machine learning for molecular and materials science 논문 리뷰"
-pubDate: 2026-06-24
+pubDate: 2026-06-22
 category: papers
 tags:
   - "paper-review"
