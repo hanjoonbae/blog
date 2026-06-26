@@ -117,6 +117,8 @@ main {
   object-fit: cover;
   filter: grayscale(1);
   transition: filter 0.7s ease;
+  object-position: center 5%;
+
 }
 
 .header-hero-img:hover {
