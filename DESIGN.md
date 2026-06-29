@@ -46,27 +46,33 @@ tokens:
 # Design System — Hanjoon Bae 기술 블로그
 
 > Bootstrapped from a user-supplied spec of **stefanzweifel.dev** — a minimalist personal
-> blog the author likes. Tokens taken directly from that spec; domain adapted to a personal
-> Korean tech/engineering blog (AWS, Databricks, 논문 리뷰, 구현, 공부).
-> Content-first, single-column reading is the whole job of the surface.
+> blog the author likes — then evolved toward the author's own taste: **minimalism with a
+> point of view.** Tokens started from that spec; domain adapted to a personal Korean
+> tech/engineering blog (AWS, Databricks, 논문 리뷰, 구현, 공부).
+> Content-first, single-column reading is the job of the _prose_; an animated-rainbow
+> signature, a terminal motif, and hidden delight give the chrome its personality.
 
 ## 1. Visual Theme & Atmosphere
 
-This blog takes minimalism as its core principle: no decorative chrome, maximum content legibility, and a single point of personality — a 2px rainbow gradient bar across the very top of the page. Everything else recedes. The page is a centered single column on white (`#ffffff`), roughly 672px wide, so the eye never has to track across a wide measure. There are no cards-with-shadows, no boxes competing for attention — just text on white, spaced to be read.
+This blog is **minimalism with a personality** — not minimalism as self-denial. The reading surface stays quiet and content-first (centered single column on white `#ffffff`, ~672px wide, slate text, no boxes competing with the prose), but a single chromatic idea — an **animated rainbow gradient** — recurs as the blog's signature and is allowed to be playful where it won't disturb reading: the top bar, the site description, category cards on hover, the intro card, and a set of hidden easter eggs. The rule is not "no color, ever" but "**one accent idea, the rainbow, used deliberately — and never inside body prose.**"
 
-The palette is an exercise in restraint: a slate-gray scale carries the entire hierarchy. Body and headings sit in near-black slate (`#0f172a`), section titles and links a step lighter (`#1e293b`), paragraph body and navigation lighter still (`#475569`), and metadata in a neutral gray (`#6b7280`). There is no solid brand color anywhere on the reading surface — color enters only through the top gradient bar and a pale-yellow text-selection highlight (`#fef4ad`).
+The palette is restrained where it counts. A slate-gray scale carries the entire reading hierarchy: body and headings in near-black slate (`#0f172a`), section titles and links a step lighter (`#1e293b`), paragraph body and navigation lighter still (`#475569`), metadata in a neutral gray (`#6b7280`). There is no _solid_ brand color on the reading surface; chromatic energy enters only through the rainbow gradient (always the same six-stop spectrum) and a pale-yellow text-selection highlight (`#fef4ad`). The rainbow is the personality; the slate scale is the discipline.
 
-What gives the surface its character is the weight-driven hierarchy. Headings (h1–h3) and body all sit at the same 16px size; the difference between a name, a section title, and a paragraph is carried almost entirely by font-weight (500 for headings, 400 for body) and color, not by size. It reads quiet and even, like a well-set document rather than a marketing page.
+What gives the prose its character is the weight-driven hierarchy. Section headings (h1–h3) and body share a 16px size; the difference between a name, a section title, and a paragraph is carried by font-weight (500 for headings, 400 for body) and color, not by a type-scale jump. Display moments — the homepage post title (26px), page titles (28px) — are allowed to break this and go bolder, because they are framing, not reading. Inside an article, the surface reads quiet and even, like a well-set document.
+
+The blog also carries a quiet **terminal/maker motif**: the site title is set in JetBrains Mono with wide tracking, code blocks wear macOS traffic-light dots, and the about page renders as a terminal session. It signals "this is an engineer's log" without shouting.
 
 **Key Characteristics:**
 
-- Centered single column, ~672px reading measure on a pure white canvas
-- Slate-gray scale carries the full hierarchy — no solid brand color on the reading surface
-- One signature accent: a 2px rainbow gradient bar at the top of the page
-- System font stack for sans (San Francisco / Segoe UI / system Hangul); JetBrains Mono for code
-- Weight-and-color-driven hierarchy — h1–h3 share a 16px size, differentiated by weight
+- Centered single column, ~672px reading measure on a pure white canvas — prose stays minimal
+- Slate-gray scale carries the full reading hierarchy — no _solid_ brand color in body prose
+- One signature idea: an **animated rainbow gradient** (six-stop spectrum, slow `rainbow-shift`) — top bar, site description, category-card hover, intro card, easter eggs
+- Display titles (homepage 26px, page 28px) may go bolder/larger — they frame, not read
+- System font stack for sans; JetBrains Mono for code, the site title, and the terminal motif
+- Weight-and-color-driven hierarchy in prose — h1–h3 share a 16px size, differentiated by weight
 - Links underlined by default, underline removed on hover — the inverse of the usual convention
 - Pale-yellow selection highlight (`#fef4ad` on `#160404`) as a small warm detail
+- Hidden delight is on-brand: Konami code, a "rainbow" hotword, a console greeting, a bossa-nova BGM toggle — invisible until sought, so the default surface stays calm
 
 ## 2. Color Palette & Roles
 
@@ -84,9 +90,23 @@ What gives the surface its character is the weight-driven hierarchy. Headings (h
 - **Code Background** (`#111827`, gray-900): Code block surface.
 - **Code Text** (`#e5e7eb`, gray-200): Code block text.
 
-### Accent — Rainbow Gradient Bar
+### Accent — Animated Rainbow Gradient (the signature)
 
-- The single decorative element: a **2px-tall** rainbow-spectrum gradient bar fixed at the top of the page, softened with a blur layer for a gentle glow. It is the only chromatic moment; there is no solid brand color to use anywhere else. Do not introduce a second accent color.
+The blog's one chromatic idea, used in several places but always the **same six-stop spectrum**:
+
+```text
+#ff595e → #ffca3a → #8ac926 → #1982c4 → #6a4c93 → #ff595e
+```
+
+It is animated by a shared `rainbow-shift` keyframe (background-position sweep), so the spectrum drifts slowly rather than sitting static. Where it appears:
+
+- **Top bar**: a 3px-tall gradient bar fixed at the top of every non-post page, softened with `blur(0.5px)` for a gentle glow. Slowly drifting (`4s linear infinite`).
+- **Site description** (nav): the tagline rendered as gradient-clipped text.
+- **Category cards** (homepage): a gradient border + gradient label that fade/animate **in on hover** (paused until hover), reverting on leave.
+- **Intro card** (homepage): a gradient fill revealed on hover (the white `::before` mask fades), text flipping to white.
+- **Easter eggs**: rainbow heading text on the "rainbow" hotword; full confetti + flash + hue-rotate on the Konami code.
+
+Rules: it is the **only** accent — do not introduce a second brand color. Keep all six stops and their order identical everywhere (don't recolor or reorder). Never run the gradient _through body prose_ — it belongs to chrome, framing, and deliberate delight, not to paragraphs or links inside an article.
 
 ### Selection
 
@@ -133,12 +153,24 @@ _Note: stefan.md uses no web fonts for body — the system stack is the delibera
 | Project / post name        | 16px | 600    | —          | Slate 800 (`#1e293b`) |
 | Project / post description | 14px | 400    | —          | Slate 600               |
 
+### Display Type (framing, not reading)
+
+A few title moments are deliberately allowed to break the even-hierarchy rule, because they frame the page rather than belong to a reading flow:
+
+| Element                       | Size | Weight | Notes                                                        |
+| ----------------------------- | ---- | ------ | ----------------------------------------------------------- |
+| Site title (nav logo)         | 22px | 700    | **JetBrains Mono**, letter-spacing 0.12em — terminal motif  |
+| Post title (`.post-heading`)  | 26px | 700    | The homepage/article headline                               |
+| Page title (`.page-title h1`) | 28px | 700    | Section index pages, letter-spacing 0.1em                   |
+
+These are the only places size carries hierarchy. Everywhere inside prose, the even 16px / weight rule below still holds.
+
 ### Principles
 
-- **Weight, not size, makes hierarchy**: h1–h3 and body all share a 16px size. The distinction between a heading and a paragraph is carried by weight (500 vs 400) and color, not by a type-scale jump. This is the single most distinctive typographic choice — the surface reads even and quiet.
+- **Weight, not size, makes hierarchy (in prose)**: inside reading, section headings (h1–h3) and body share a 16px size. The distinction between a heading and a paragraph is carried by weight (500 vs 400) and color, not by a type-scale jump. The surface reads even and quiet. (Display titles above are the deliberate exception.)
 - **Generous paragraph leading**: body paragraphs run at line-height 1.75; UI/headings at 1.5. Long-form Korean reading benefits from the extra leading.
-- **System stack as a feature**: no font fetch, native rendering on every platform. Fast, familiar, unbranded — the type gets out of the content's way.
-- **Mono for code only**: JetBrains Mono is strictly for code blocks and inline code, never for body content.
+- **System stack as a feature**: no font fetch for body, native rendering on every platform. Fast, familiar, unbranded — the type gets out of the content's way.
+- **Mono as code + identity**: JetBrains Mono is for code blocks and inline code — and, as a deliberate brand signal, the site title and the about-page terminal. Never for body paragraphs.
 
 ## 4. Component Stylings
 
@@ -192,36 +224,41 @@ _Tokens from the stefan.md spec. The blog's relevant surfaces are post lists, li
 
 ## 6. Depth & Elevation
 
-| Level                | Treatment                                        | Use                                                 |
-| -------------------- | ------------------------------------------------ | --------------------------------------------------- |
-| Flat (Level 0)       | No shadow, no border                             | Page background, body text, headings — the default |
-| Hover tint (Level 1) | Slate-50/25 background + Slate 300 dashed border | Post/project rows on hover                          |
-| Code surface         | gray-900 fill on the white page                  | Code blocks                                         |
+| Level                | Treatment                                            | Use                                                  |
+| -------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| Flat (Level 0)       | No shadow, no border                                 | Page background, body text, headings — the default   |
+| Hover tint (Level 1) | Slate-50/25 background + Slate 300 dashed border     | Post/project rows on hover                           |
+| Code surface         | `#0d1117` fill + 1px `#30363d` border + soft shadow  | Code blocks (the one elevated, "app-window" surface) |
 
-**Shadow Philosophy**: there is essentially no elevation system — stefan.md uses **no drop shadows**. Depth and grouping come from whitespace, the occasional dashed hover border, and the dark code surface contrasting the white page. Do not add box-shadows; flatness is the identity.
+**Shadow Philosophy**: the reading surface is flat — no drop shadows on text, cards, or hover rows; depth and grouping come from whitespace and the occasional dashed hover border. The **one** sanctioned exception is the code block, which is treated as a small floating "terminal window": a dark `#0d1117` fill, a 1px `#30363d` border, macOS traffic-light dots, and a soft `0 4px 24px rgba(0,0,0,0.18)` shadow. That single elevated element is part of the maker motif. Do not add shadows anywhere else; flatness stays the identity for everything that is read.
 
 ## 7. Do's and Don'ts
 
 ### Do
 
 - Keep a single centered column at ~672px reading measure
-- Use the slate scale (`#0f172a` → `#475569` → `#6b7280`) for all text hierarchy
-- Make hierarchy with font-weight and color, not big size jumps (h1–h3 share ~16px)
-- Use the system font stack for sans; JetBrains Mono for code only
+- Use the slate scale (`#0f172a` → `#475569` → `#6b7280`) for all _prose_ text hierarchy
+- Make prose hierarchy with font-weight and color, not big size jumps (h1–h3 share ~16px)
+- Let the **display titles** (site title 22px mono, post title 26px, page title 28px) go bolder — they frame, not read
+- Use the system font stack for sans; JetBrains Mono for code, the site title, and the terminal motif
 - Underline links by default and remove the underline on hover
-- Keep the top 2px rainbow gradient bar as the one decorative accent
+- Use the **animated rainbow** as the signature — top bar, site description, category-card / intro-card hover, easter eggs — always the same six stops in the same order
+- Reach for tasteful, contained delight (the easter eggs, BGM toggle, hero grayscale→color hover) — it's on-brand _because_ it's hidden or opt-in
+- Treat the code block as the one elevated "terminal window" (dark fill, traffic-light dots, soft shadow)
 - Use the pale-yellow selection highlight (`#fef4ad` / `#160404`)
-- Use dashed hover borders + faint tint for interactive rows — never drop shadows
+- Use dashed hover borders + faint tint for interactive reading rows — no shadows on those
 
 ### Don't
 
-- Don't add a solid brand color to the reading surface — the gradient bar is the only accent
-- Don't introduce drop shadows or heavy boxes — the design is flat
-- Don't create large heading/body size contrast — weight carries the hierarchy
+- Don't run the rainbow (or any color) **through body prose** — links and paragraphs inside an article stay slate; the rainbow is for chrome and framing
+- Don't introduce a _second_ accent color or recolor/reorder the six rainbow stops — one spectrum, used everywhere
+- Don't add drop shadows to text, cards, or hover rows — the **only** shadow is on the code block
+- Don't create large heading/body size contrast _inside prose_ — weight carries the hierarchy there
 - Don't use serif or a fetched web body font — the system stack is deliberate
 - Don't widen the reading column beyond a comfortable single-column measure
-- Don't add warm cream backgrounds or a second accent color
+- Don't add warm cream backgrounds or a third palette
 - Don't keep link underlines on hover — hover removes them
+- Don't make the entrance/animation interrupt or block reading — delight must yield to content, honor `prefers-reduced-motion`, and never gate the post behind a splash
 
 ## 8. Responsive Behavior
 
@@ -249,8 +286,8 @@ _Tokens from the stefan.md spec. The blog's relevant surfaces are post lists, li
 - Secondary / nav / paragraph: Slate 600 (`#475569`)
 - Metadata: Gray 500 (`#6b7280`)
 - Background: White (`#ffffff`)
-- Code surface: gray-900 (`#111827`) / gray-200 text (`#e5e7eb`)
-- Accent: top 2px rainbow gradient bar (no solid brand color)
+- Code surface: `#0d1117` fill / `#e6edf3` text, 1px `#30363d` border + traffic-light dots
+- Accent: the animated six-stop rainbow (`#ff595e → #ffca3a → #8ac926 → #1982c4 → #6a4c93 → #ff595e`) — top bar, site description, hover states, easter eggs. No second solid brand color; never inside body prose.
 
 ### Example Component Prompts
 
@@ -286,19 +323,20 @@ The voice is plain, precise, and quiet — matching the visual restraint. Titles
 
 This is the personal technical blog of **Hanjoon Bae**, a data/engineering practitioner. Its thesis is the loop in the homepage tagline: **기술을 배우고, 만들고, 기록합니다** — _learn technology, build with it, and write down what was learned._ The blog is a study log first and an audience product never: posts cover what is actively being studied (AWS SAA, Databricks DEA), implementations being built (구현), and papers being read (논문 리뷰).
 
-The visual language is borrowed from a minimalist personal blog the author admires (stefanzweifel.dev): a single centered column on white, a slate-gray scale carrying the whole hierarchy, the system font stack, and one small decorative accent — a rainbow gradient bar. It is content-first by construction. Against the dev-blog defaults of dark dashboards, decorative illustration, and marketing color, this surface keeps the chrome nearly invisible so the writing is the only thing on the page.
+The visual language starts from a minimalist personal blog the author admires (stefanzweifel.dev) — a single centered column on white, a slate-gray scale carrying the reading hierarchy, the system font stack — and then adds the author's own personality on top: an **animated rainbow** as the recurring signature, a JetBrains-Mono terminal motif, and a layer of hidden delight (a Konami party, a "rainbow" hotword, a console greeting, a bossa-nova toggle). It is content-first by construction but not personality-free: this is **minimalism with a point of view**, not minimalism as erasure. The chrome stays quiet so the writing leads; the personality lives in the edges — the masthead, the hover states, the easter eggs — where it can delight without getting between the reader and the prose.
 
-What this blog refuses: hype framing, clickbait titles, decorative color, drop-shadow boxes, and unqualified confidence about things still being learned. What it embraces: a quiet document-like reading surface, weight-driven hierarchy, measured language, and the discipline of recording exactly what was understood — including the parts still uncertain.
+What this blog refuses: hype framing, clickbait titles, color _inside the reading flow_, shadowed boxes around text, and unqualified confidence about things still being learned. What it embraces: a quiet document-like reading surface, weight-driven hierarchy in prose, measured language, the discipline of recording exactly what was understood (including the uncertain parts) — and one well-defined streak of playfulness (the rainbow signature and the hidden delights) that makes the surface feel like a person's, not a template's.
 
 ## 12. Principles
 
 1. **기록 over performance.** A post exists to record what was actually learned, not to perform expertise. If something isn't understood yet, the post says so.
-2. **Content-first minimalism.** No decorative chrome, no shadow boxes, no second accent. The white column and the slate text are the whole design.
+2. **Minimalism with a point of view.** The reading surface stays calm — white column, slate text, no boxes around prose — but the blog is allowed a personality at the edges: the rainbow signature, the terminal motif, and hidden delight. Minimal where it's read; characterful where it's framed.
 3. **Mechanism over conclusion.** Explain how a thing works and where it breaks, in the same breath. A "정리" that omits the failure modes is incomplete.
-4. **Hierarchy by weight, not noise.** Headings and body share a size; weight and color carry the structure. Quiet and even, like a document.
-5. **One accent, used sparingly.** The top gradient bar is the single chromatic moment; nothing else competes.
-6. **Claims are numeric.** "빌드 40% 단축" beats "훨씬 빨라짐". Hedging where the edge is real is a feature.
-7. **The system font is a feature.** Native rendering, no fetch, gets out of the content's way.
+4. **Hierarchy by weight, not noise (in prose).** Inside reading, headings and body share a size; weight and color carry the structure. Display titles may go bigger — they frame, not read.
+5. **One accent idea, used deliberately.** The animated rainbow is the single chromatic signature — top bar, site description, hover states, easter eggs — always the same six stops. It never bleeds into body prose, and no second color joins it.
+6. **Delight is opt-in, never in the way.** The easter eggs and BGM exist to make the surface feel like a person's; they stay hidden or optional, respect reduced-motion, and never block reading or gate content behind a splash.
+7. **Claims are numeric.** "빌드 40% 단축" beats "훨씬 빨라짐". Hedging where the edge is real is a feature.
+8. **The system font is a feature.** Native body rendering, no fetch, gets out of the content's way; mono is reserved for code and the terminal identity.
 
 ## 13. Personas
 
@@ -328,13 +366,17 @@ _Personas below are fictional reader archetypes informed by the blog's actual su
 
 ## 15. Motion & Easing
 
+Motion has **two registers**. In and around _reading_, it is whisper-quiet (hover fades, tint changes). Away from reading — chrome, signature, opt-in delight — it is allowed to be alive (the slow rainbow drift) or even exuberant (the easter-egg party). Keep the two registers separate: a paragraph never bounces; a Konami code is allowed to throw confetti.
+
 **Durations**:
 
-| Token               | Value | Use                                            |
-| ------------------- | ----- | ---------------------------------------------- |
-| `motion-instant`  | 0ms   | State commits, toggle                          |
-| `motion-fast`     | 150ms | Hover transitions (underline, background tint) |
-| `motion-standard` | 250ms | Route transitions, small reveals               |
+| Token               | Value      | Use                                            |
+| ------------------- | ---------- | ---------------------------------------------- |
+| `motion-instant`  | 0ms        | State commits, toggle                          |
+| `motion-fast`     | 150ms      | Hover transitions (underline, background tint) |
+| `motion-standard` | 250ms      | Route transitions, hover reveals (cards)       |
+| `motion-ambient`  | 2s–4s loop | The rainbow drift; BGM equalizer bars          |
+| `motion-delight`  | ~0.5s–5.5s | Easter-egg party (one-shot, opt-in)            |
 
 **Easings**:
 
@@ -342,13 +384,16 @@ _Personas below are fictional reader archetypes informed by the blog's actual su
 | ----------------- | ------------------------------------ | ----------------------------- |
 | `ease-standard` | `cubic-bezier(0.25, 0.1, 0.25, 1)` | Hover and two-way transitions |
 
-**Explicitly forbidden.** No spring, no bounce, no overshoot. Motion is limited to subtle hover transitions (underline removal, faint background tint) — matching the restraint of the visual system. A bouncing element would break the quiet document feel.
+**Constraints.** No spring/bounce/overshoot on _reading_ elements — paragraphs, headings, links, and post rows stay still and quiet. The grayscale→color hero transition (`0.7s ease`) and the slow rainbow drift are the ambient exceptions; the easter eggs are the opt-in ones. Nothing that animates may shift the layout of text or block reading.
 
 **Signature motions.**
 
 1. **Link hover.** The default underline fades out on hover over `motion-fast`. The inverse of the usual link affordance — quiet and deliberate.
 2. **Post-row hover.** Background tints to slate-50/25 and a dashed Slate 300 border appears over `motion-fast`. No translate, no shadow.
-3. **Reduce motion.** Under `prefers-reduced-motion: reduce`, all `motion-*` tokens collapse to `motion-instant`. The blog stays fully functional.
+3. **Rainbow drift (ambient).** The six-stop gradient sweeps its background-position on a slow `rainbow-shift` loop (`~2.5s–4s linear infinite`) wherever the signature appears — top bar, site description, category-card / intro-card hover.
+4. **Hero reveal.** The masthead photo sits in grayscale and warms to full color over `0.7s ease` on hover — a small, calm payoff.
+5. **Delight (opt-in).** The "rainbow" hotword tints headings; the Konami code runs a one-shot party (confetti fall, gradient flash, gentle main wobble, hue-rotate) for ~5.5s, then fully reverts. Hidden by default — it never fires on normal use.
+6. **Reduce motion.** Under `prefers-reduced-motion: reduce`, all `motion-*` tokens collapse to `motion-instant`, the rainbow drift and easter-egg animations are suppressed (the party falls back to a brief static rainbow), and the BGM bars hold a static height. The blog stays fully functional and calm.
 
 ---
 

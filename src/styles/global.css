@@ -82,6 +82,24 @@ body:not(.is-post)::before {
   filter: blur(0.5px);
 }
 
+/* Cinematic intro — only when the homepage opts in via .is-intro on <html>.
+   The top rainbow line draws left→right once, then settles into its drift. */
+.is-intro body:not(.is-post)::before {
+  transform-origin: left center;
+  animation:
+    intro-line-draw 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) 0.4s both,
+    rainbow-shift 4s linear 1.6s infinite;
+}
+
+@keyframes intro-line-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 ::selection {
   background: var(--color-selection-bg);
   color: var(--color-selection-fg);
@@ -865,4 +883,48 @@ section + section {
 
 .terminal-text--val {
   color: #51dcae;
+}
+
+/* ── Cinematic intro: staggered fade + rise ──────────────────────────────
+   Elements tagged .intro-seq start hidden and animate in once, sequenced by
+   their inline --seq-delay. Active only while <html> carries .is-intro
+   (set per-session on the homepage). A24-style: slow ease-out, 12px rise,
+   no layout shift (opacity + transform only). */
+.is-intro .intro-seq {
+  opacity: 0;
+  animation: intro-rise 1.1s cubic-bezier(0.22, 0.61, 0.36, 1) var(--seq-delay, 0s)
+    both;
+}
+
+/* Per-cell micro-stagger inside the category grid. */
+.is-intro .intro-seq.category-grid > li {
+  opacity: 0;
+  animation: intro-rise 1.1s cubic-bezier(0.22, 0.61, 0.36, 1)
+    calc(var(--seq-delay, 0s) + var(--cell-i, 0) * 0.1s) both;
+}
+
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* The intro is delight, not a gate — collapse to instant when motion is reduced. */
+@media (prefers-reduced-motion: reduce) {
+  .is-intro .intro-seq,
+  .is-intro .intro-seq.category-grid > li {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  /* The rainbow line skips its draw-in and keeps only its normal drift. */
+  .is-intro body:not(.is-post)::before {
+    transform: none;
+    animation: rainbow-shift 4s linear infinite;
+  }
 }
