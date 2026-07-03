@@ -18,34 +18,22 @@ const posts = (await getCollection('blog'))
 <html lang="ko">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <script is:inline>
-      // Set .is-intro BEFORE first paint so .intro-seq elements never flash
-      // fully-shown before the staggered entrance. Once per session only.
-      (function () {
-        try {
-          if (!sessionStorage.getItem("intro-played")) {
-            document.documentElement.classList.add("is-intro");
-            sessionStorage.setItem("intro-played", "1");
-          }
-        } catch (e) {}
-      })();
-    </script>
   </head>
   <body>
     <Header />
     <main>
-      <section class="intro intro-seq" style="--seq-delay: 0.65s" aria-labelledby="intro-title">
+      <section class="intro" aria-labelledby="intro-title">
         <SocialLinks />
       </section>
 
-      <a class="intro-card intro-seq" style="--seq-delay: 0.9s" href="/about/">
+      <a class="intro-card" href="/about/">
         <span class="intro-card-name">Hanjoon Bae</span>
         <span class="intro-card-desc">Studying Materials Science & Data Science</span>
         <span class="intro-card-arrow" aria-hidden="true">→</span>
       </a>
 
       <section aria-labelledby="categories">
-        <ol class="category-list category-grid intro-seq" style="--seq-delay: 1.15s">
+        <ol class="category-list category-grid">
           {CATEGORIES.map((category, i) => (
             <li style={`--cell-i: ${i}`}>
               <a class="category-row" href={category.href}>
@@ -56,7 +44,7 @@ const posts = (await getCollection('blog'))
         </ol>
       </section>
 
-      <section class="intro-seq" style="--seq-delay: 1.5s" aria-labelledby="recent-posts">
+      <section aria-labelledby="recent-posts">
         <div class="section-heading">
           <h3 id="recent-posts">Recent Posts</h3>
           <a href="/blog/">All posts</a>
@@ -65,29 +53,5 @@ const posts = (await getCollection('blog'))
       </section>
     </main>
     <Footer />
-
-    <script is:inline>
-      // The head script arms .is-intro before first paint. With <ClientRouter/>,
-      // navigating swaps the DOM without re-running the head script, so re-run
-      // the same once-per-session check after each swap: play the intro the
-      // first time the homepage is reached this session, skip it otherwise.
-      document.addEventListener("astro:after-swap", function () {
-        var html = document.documentElement;
-        var onHome =
-          location.pathname === "/" || location.pathname === "/index.html";
-        var seen = false;
-        try {
-          seen = !!sessionStorage.getItem("intro-played");
-        } catch (e) {}
-        if (onHome && !seen) {
-          html.classList.add("is-intro");
-          try {
-            sessionStorage.setItem("intro-played", "1");
-          } catch (e) {}
-        } else {
-          html.classList.remove("is-intro");
-        }
-      });
-    </script>
   </body>
 </html>

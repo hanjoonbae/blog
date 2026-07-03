@@ -10,8 +10,8 @@ const { showHero = true } = Astro.props;
 
 <header class="site-header">
   <nav class="site-nav" aria-label="Primary navigation">
-    <a class="site-title intro-seq" style="--seq-delay: 0s" href="/">{SITE_TITLE}</a>
-    <span class="site-desc-nav intro-seq" style="--seq-delay: 0.25s">{SITE_DESCRIPTION}</span>
+    <a class="site-title" href="/">{SITE_TITLE}</a>
+    <span class="site-desc-nav">{SITE_DESCRIPTION}</span>
   </nav>
   {showHero && (
     <div class="header-hero">
